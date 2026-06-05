@@ -21,10 +21,9 @@ export default function HomePage() {
     items-center
     gap-4
     rounded-[16px]
-    bg-white/35
+    bg-[linear-gradient(to_right,#b8b8b8_0%,#b3b3b3_5%,#adadad_10%,#a7a7a7_14%,#a0a0a0_18%,#989898_24%,#909090_28%,#888888_32%,#7e7e7e_38%,#747474_43%,#686868_50%,#5c5c5c_63%,#505050_72%,#444444_80%,#383838_91%,#2a2a2a_100%)]
     px-5
     shadow-lg
-    backdrop-blur
   "
 >
   <Image
@@ -66,7 +65,7 @@ export default function HomePage() {
         damping: 28,
       }}
     >
-      <nav className="w-[305px] rounded-[14px] bg-white/35 px-7 py-9 text-center shadow-xl backdrop-blur">
+      <nav className="w-[305px] rounded-[14px] bg-[#b58acb] px-7 py-9 text-center shadow-xl backdrop-blur">
         <div className="flex flex-col gap-7 text-[22px] font-black tracking-wide drop-shadow">
           <button>VIBELINK</button>
           <button>VIBE TV</button>
