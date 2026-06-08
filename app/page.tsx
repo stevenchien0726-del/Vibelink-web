@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Globe2, LogIn, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -60,52 +65,169 @@ const validations = [
 ];
 
 export default function HomePage() {
+  const [open, setOpen] = useState(false);
+
+  const scrollToTop = () => {
+    const startPosition = window.scrollY;
+    const duration = 500;
+    let startTime: number | null = null;
+
+    const animateScroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      window.scrollTo(0, startPosition * (1 - progress));
+
+      if (progress < 1) {
+        window.requestAnimationFrame(animateScroll);
+      }
+    };
+
+    window.requestAnimationFrame(animateScroll);
+  };
+
+  const scrollToSection = (id: string) => {
+    const target = document.getElementById(id);
+
+    if (!target) return;
+
+    const headerOffset = 80;
+    const startPosition = window.scrollY;
+    const targetPosition =
+      target.getBoundingClientRect().top + window.scrollY - headerOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 500;
+    let startTime: number | null = null;
+
+    const animateScroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      window.scrollTo(0, startPosition + distance * progress);
+
+      if (progress < 1) {
+        window.requestAnimationFrame(animateScroll);
+      }
+    };
+
+    window.requestAnimationFrame(animateScroll);
+  };
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#120018] text-white">
-      <section className="relative isolate min-h-screen px-5 py-6 sm:px-8 lg:px-12">
+      <div className="fixed inset-x-0 top-0 z-[99999] w-full px-4 pt-4 pointer-events-auto sm:px-8 lg:px-12">
+        <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
+          <button
+  type="button"
+  onClick={scrollToTop}
+  className="flex h-[68px] w-[192px] items-center justify-center gap-2 rounded-[22px] border border-black/5 bg-[#e5e5e5] px-4 shadow-2xl shadow-fuchsia-950/30 transition active:scale-95 sm:w-[210px]"
+  aria-label="Back to VIBE CITY home"
+>
+  <Image
+    src="/wing-logo.png"
+    alt=""
+    width={44}
+    height={44}
+    className="h-11 w-11 shrink-0 object-contain"
+    priority
+  />
+  <span className="text-lg font-black tracking-normal text-[#1f1f1f]">
+    VIBE CITY
+  </span>
+</button>
+
+          <button
+            type="button"
+            onClick={() => setOpen((current) => !current)}
+            className="flex h-[64px] w-[132px] items-center justify-center gap-3 rounded-[22px] bg-[#b76bd6]/55 text-[17px] font-bold text-white shadow-2xl shadow-fuchsia-950/30 backdrop-blur transition active:scale-95 sm:w-[150px]"
+            aria-expanded={open}
+            aria-controls="home-menu"
+          >
+            <Menu size={26} strokeWidth={2.4} />
+            {open ? "CLOSE" : "MENU"}
+          </button>
+        </header>
+
+        <AnimatePresence>
+  {open ? (
+    <>
+      <motion.button
+        type="button"
+        aria-label="Close menu"
+        className="fixed inset-0 z-[99997] cursor-default bg-transparent"
+        onClick={() => setOpen(false)}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+
+      <div className="fixed left-1/2 top-[108px] z-[99998] w-[78%] max-w-[330px] -translate-x-1/2 sm:max-w-[460px]">
+        <motion.nav
+          id="home-menu"
+          className="rounded-[24px] bg-[#b98bd0] px-7 py-8 text-center text-[#1f1f1f] shadow-2xl shadow-fuchsia-950/35"
+          initial={{ opacity: 0, y: -12, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -12, scale: 0.96 }}
+          transition={{ duration: 0.24, ease: "easeOut" }}
+        >
+          <div className="flex flex-col gap-6 text-[21px] font-black tracking-wide">
+            <Link href="#vibelink" onClick={() => setOpen(false)}>
+              VIBELINK
+            </Link>
+            <Link href="#" onClick={() => setOpen(false)}>
+              VIBE TV
+            </Link>
+            <Link href="#" onClick={() => setOpen(false)}>
+              VIBE生態系
+            </Link>
+            <Link href="#" onClick={() => setOpen(false)}>
+              VIBE會員
+            </Link>
+            <Link href="#" onClick={() => setOpen(false)}>
+              關於VIBE CITY
+            </Link>
+            <Link href="#vision" onClick={() => setOpen(false)}>
+              投資人中心
+            </Link>
+          </div>
+
+          <div className="mx-auto my-7 h-[2px] w-4/5 rounded-full bg-[#5f496b]" />
+
+          <div className="flex flex-col gap-5 text-[21px] font-black tracking-wide">
+            <Link
+              href="#"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-4"
+            >
+              <LogIn size={22} strokeWidth={2.5} />
+              登入
+            </Link>
+            <Link
+              href="#"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-4"
+            >
+              <Globe2 size={22} strokeWidth={2.5} />
+              中文
+            </Link>
+          </div>
+        </motion.nav>
+      </div>
+    </>
+  ) : null}
+</AnimatePresence>
+      </div>
+
+      <section className="relative isolate px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-12">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(191,75,255,0.38),transparent_34%),radial-gradient(circle_at_80%_0%,rgba(111,66,255,0.32),transparent_30%),linear-gradient(180deg,#4c086c_0%,#230432_52%,#120018_100%)]" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-44 bg-gradient-to-t from-[#120018] to-transparent" />
 
-        <header className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          <Link
-            href="#"
-            className="flex items-center gap-3 rounded-3xl border border-white/10 bg-white/8 px-4 py-3 shadow-2xl shadow-fuchsia-950/30 backdrop-blur"
-            aria-label="VIBE CITY home"
-          >
-            <Image
-              src="/wing-logo.png"
-              alt=""
-              width={36}
-              height={36}
-              className="h-9 w-9 object-contain"
-              priority
-            />
-            <span className="text-sm font-semibold tracking-[0.24em] text-white/90">
-              VIBE CITY
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/8 p-1 text-sm text-white/72 backdrop-blur sm:flex">
-            <Link
-              href="#vibelink"
-              className="rounded-full px-4 py-2 transition hover:bg-white/12 hover:text-white"
-            >
-              Vibelink
-            </Link>
-            <Link
-              href="#vision"
-              className="rounded-full px-4 py-2 transition hover:bg-white/12 hover:text-white"
-            >
-              Vision
-            </Link>
-          </nav>
-        </header>
-
-        <div className="mx-auto flex min-h-[calc(100vh-96px)] w-full max-w-6xl items-center pb-20 pt-16">
+        <div className="mx-auto w-full max-w-6xl">
           <div className="max-w-4xl">
-            <div className="mb-7 inline-flex rounded-full border border-fuchsia-200/20 bg-fuchsia-200/10 px-4 py-2 text-sm font-medium text-fuchsia-100 shadow-lg shadow-fuchsia-950/30">
-              AI Social x Entertainment Culture Ecosystem
-            </div>
 
             <h1 className="text-6xl font-black leading-[0.92] tracking-normal text-white sm:text-7xl lg:text-8xl">
               VIBE CITY
@@ -120,25 +242,28 @@ export default function HomePage() {
               社交、影音內容、會員訂閱與青年娛樂文化的全球化平台。
             </p>
 
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="#vibelink"
-                className="rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#2a063d] shadow-xl shadow-fuchsia-950/30 transition hover:-translate-y-0.5 hover:bg-fuchsia-50"
-              >
-                Explore Vibelink
-              </Link>
-              <Link
-                href="#vision"
-                className="rounded-full border border-white/18 bg-white/10 px-6 py-3 text-center text-sm font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/16"
-              >
-                Investor Center
-              </Link>
-            </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+  {[
+    { label: "Problem", id: "problem" },
+    { label: "Solution", id: "solution" },
+    { label: "First Product", id: "vibelink" },
+    { label: "Validation", id: "vision" },
+  ].map((item) => (
+    <button
+      key={item.id}
+      type="button"
+      onClick={() => scrollToSection(item.id)}
+      className="rounded-full border border-white/12 bg-white/[0.08] px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/[0.14] hover:text-white"
+    >
+      {item.label}
+    </button>
+  ))}
+</div>
           </div>
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-8 lg:px-12">
+      <section id="problem" className="scroll-mt-28 px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
           <SectionIntro
             eyebrow="Problem"
@@ -159,7 +284,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-8 lg:px-12">
+      <section id="solution" className="scroll-mt-28 px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
           <SectionIntro
             eyebrow="Solution"
@@ -183,7 +308,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="vibelink" className="px-5 py-20 sm:px-8 lg:px-12">
+      <section id="vibelink" className="scroll-mt-28 px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl rounded-3xl border border-white/12 bg-gradient-to-br from-white/[0.11] via-fuchsia-300/[0.08] to-white/[0.04] p-6 shadow-2xl shadow-fuchsia-950/30 sm:p-10">
           <SectionIntro
             eyebrow="First Product"
@@ -199,7 +324,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="vision" className="px-5 py-20 sm:px-8 lg:px-12">
+      <section id="vision" className="scroll-mt-28 px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
           <SectionIntro
             eyebrow="Validation"
@@ -229,10 +354,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          <p className="mt-10 rounded-3xl border border-fuchsia-200/18 bg-fuchsia-200/10 p-6 text-lg font-semibold leading-8 text-fuchsia-50">
-            我們不是一次性打造龐大帝國，而是用小規模驗證，逐步證明一個全球級
-            AI 社交娛樂生態系可以成立。
-          </p>
         </div>
       </section>
     </main>
