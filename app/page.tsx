@@ -181,12 +181,14 @@ export default function HomePage() {
             <Link href="#" onClick={() => setOpen(false)}>
               VIBE TV
             </Link>
-            <Link href="#" onClick={() => setOpen(false)}>
-              VIBE生態系
-            </Link>
+
             <Link href="#" onClick={() => setOpen(false)}>
               VIBE會員
             </Link>
+            <Link href="#" onClick={() => setOpen(false)}>
+              VIBE生態系
+            </Link>
+            
             <Link href="#" onClick={() => setOpen(false)}>
               關於VIBE CITY
             </Link>
