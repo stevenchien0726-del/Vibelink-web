@@ -262,6 +262,22 @@ export default function HomePage() {
   ))}
 </div>
           </div>
+
+          <div className="relative mt-10 -mx-4 overflow-hidden sm:-mx-8 lg:-mx-12">
+            <div className="absolute -inset-4 bg-fuchsia-500/18 blur-3xl" />
+            <figure className="relative overflow-hidden">
+              <Image
+                src="/vibe-city-home-ecosystem.png"
+                alt="VIBE CITY AI social entertainment ecosystem"
+                width={1024}
+                height={1536}
+                className="h-auto w-full object-cover"
+                priority
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#120018_0%,transparent_10%,transparent_88%,#120018_100%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#120018_0%,transparent_9%,transparent_91%,#120018_100%)]" />
+            </figure>
+          </div>
         </div>
       </section>
 

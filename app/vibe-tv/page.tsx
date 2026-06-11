@@ -73,7 +73,7 @@ export default function VibeTvPage() {
           onClick={handleBack}
           className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.08] px-5 py-3 text-base font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
         >
-          <span className="text-xl leading-none">&lt;</span>
+          <span className="h-3.5 w-3.5 rotate-45 border-b-2 border-l-2 border-white/86" />
           Back
         </button>
 
