@@ -3,44 +3,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-
-const contentDirections = [
-  {
-    title: "Vibe Studio Original",
-    body: "原創影集/節目與電影",
-  },
-  {
-    title: "Movies",
-    body: "授權電影與影集內容",
-  },
-  {
-    title: "Live Entertainment",
-    body: "線下娛樂活動直播",
-  },
-];
-
-const ecosystemItems = [
-  {
-    title: "VIBELINK",
-    body: "AI 社交平台",
-  },
-  {
-    title: "VIBE TV",
-    body: "娛樂內容平台",
-  },
-  {
-    title: "VIBE Membership",
-    body: "跨平台會員系統",
-  },
-];
-
-const membershipValues = [
-  "VIBE TV 原創與授權影集、電影內容",
-  "VIBELINK AI Radar 社交探索功能",
-  "專屬會員活動與未來生態系服務",
-];
+import { useI18n } from "@/lib/i18n";
 
 export default function VibeTvPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const [isClosing, setIsClosing] = useState(false);
 
@@ -68,74 +34,36 @@ export default function VibeTvPage() {
           if (isClosing) router.push("/");
         }}
       >
-        <button
-          type="button"
-          onClick={handleBack}
-          className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.08] px-5 py-3 text-base font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
-        >
-          <span className="h-3.5 w-3.5 rotate-45 border-b-2 border-l-2 border-white/86" />
-          Back
-        </button>
+        <BackButton label={t.common.back} onClick={handleBack} />
 
-        <section className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[linear-gradient(145deg,#5b0d80_0%,#2c073e_48%,#16001f_100%)] p-6 shadow-2xl shadow-fuchsia-950/35">
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-fuchsia-300/20 to-transparent" />
-          <div className="relative">
-            <p className="text-sm font-black uppercase tracking-[0.16em] text-fuchsia-100/82">
-              Entertainment. Culture. Stories.
-            </p>
-            <h1 className="mt-4 text-5xl font-black leading-none tracking-normal text-white">
-              VIBE TV
-            </h1>
-            <p className="mt-5 text-base leading-7 text-white/74">
-              VIBE TV 是 VIBE CITY
-              娛樂生態系的重要一環。我們相信，未來的娛樂不只是觀看內容，而是透過故事、文化、社交與
-              AI 建立更深層的連結。
-            </p>
-          </div>
-        </section>
+        <Hero title={t.vibeTv.title} subtitle={t.vibeTv.subtitle}>
+          {t.vibeTv.body}
+        </Hero>
 
-        <InfoSection title="我們的願景">
-          <p>
-            VIBE TV 將不只是影音平台，而是 VIBE CITY
-            生態系的重要內容引擎。從原創影集、電影到大型娛樂企劃，VIBE
-            TV 希望打造一個結合內容、社交與 AI 的新世代娛樂平台。
-          </p>
+        <InfoSection title={t.vibeTv.visionTitle}>
+          <p>{t.vibeTv.vision}</p>
         </InfoSection>
 
         <section className="mt-5">
-          <SectionTitle>未來內容方向</SectionTitle>
+          <SectionTitle>{t.vibeTv.directionTitle}</SectionTitle>
           <div className="mt-3 grid gap-3">
-            {contentDirections.map((item) => (
-              <article
-                key={item.title}
-                className="rounded-[24px] border border-white/12 bg-white/[0.07] p-5 shadow-xl shadow-fuchsia-950/20 backdrop-blur"
-              >
-                <h3 className="text-xl font-black tracking-normal text-white">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-white/70">
-                  {item.body}
-                </p>
-              </article>
+            {t.vibeTv.directions.map(([title, body]) => (
+              <InfoCard key={title} title={title} body={body} />
             ))}
           </div>
         </section>
 
-        <InfoSection title="VIBE 生態系">
-          <p>
-            VIBE CITY
-            的策略並不只是建立一個影片平台，而是打造一個結合內容、社交與
-            AI 的娛樂生態系。
-          </p>
+        <InfoSection title={t.vibeTv.ecosystemTitle}>
+          <p>{t.vibeTv.ecosystem}</p>
           <div className="mt-5 grid gap-3">
-            {ecosystemItems.map((item) => (
+            {t.vibeTv.ecosystemCards.map(([title, body]) => (
               <article
-                key={item.title}
+                key={title}
                 className="rounded-[20px] border border-fuchsia-100/12 bg-white/[0.07] p-4"
               >
-                <h3 className="text-base font-black text-white">{item.title}</h3>
+                <h3 className="text-base font-black text-white">{title}</h3>
                 <p className="mt-1 text-sm font-semibold text-white/64">
-                  {item.body}
+                  {body}
                 </p>
               </article>
             ))}
@@ -143,12 +71,12 @@ export default function VibeTvPage() {
         </InfoSection>
 
         <section className="mt-5 rounded-[24px] border border-fuchsia-100/14 bg-[#22052f]/86 p-5 shadow-xl shadow-fuchsia-950/20">
-          <SectionTitle>未來會員價值</SectionTitle>
+          <SectionTitle>{t.vibeTv.membershipTitle}</SectionTitle>
           <p className="mt-3 text-base leading-7 text-white/74">
-            VIBE 會員未來將可同時獲得：
+            {t.vibeTv.membershipIntro}
           </p>
           <div className="mt-4 grid gap-3">
-            {membershipValues.map((item) => (
+            {t.vibeTv.membership.map((item) => (
               <div
                 key={item}
                 className="flex items-start gap-3 rounded-2xl bg-white/[0.07] px-4 py-3 text-sm font-semibold leading-6 text-white/82"
@@ -159,33 +87,73 @@ export default function VibeTvPage() {
             ))}
           </div>
           <p className="mt-5 rounded-2xl bg-[#c77aea] px-4 py-4 text-center text-lg font-black text-[#1f0629]">
-            娛樂內容 + 社交互動 + AI 服務
+            {t.vibeTv.highlight}
           </p>
         </section>
 
-        <InfoSection title="長期優勢">
-          <p>
-            相較於傳統影音串流平台，VIBE CITY 希望透過內容、社交與 AI
-            的深度整合，建立更高的用戶參與度與更低的會員流失率。
-          </p>
+        <InfoSection title={t.vibeTv.advantageTitle}>
+          <p>{t.vibeTv.advantage}</p>
         </InfoSection>
 
         <section className="mt-5 rounded-[28px] border border-white/12 bg-[linear-gradient(145deg,rgba(255,255,255,0.1),rgba(199,122,234,0.1),rgba(255,255,255,0.04))] p-6 text-center shadow-2xl shadow-fuchsia-950/25">
           <p className="text-sm font-black uppercase tracking-[0.2em] text-fuchsia-100/82">
-            Coming Soon
+            {t.vibeTv.comingTitle}
           </p>
           <p className="mt-4 text-base leading-7 text-white/74">
-            VIBE TV 正在規劃中。未來將與 VIBELINK、VIBE 會員及 VIBE CITY
-            生態系深度整合，打造全新的娛樂體驗。
+            {t.vibeTv.coming}
           </p>
           <p className="mt-6 text-xl font-black leading-8 text-white">
-            VIBELINK Connects People.
+            {t.vibeTv.footer[0]}
             <br />
-            VIBE TV Connects Culture.
+            {t.vibeTv.footer[1]}
           </p>
         </section>
       </motion.div>
     </main>
+  );
+}
+
+function BackButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.08] px-5 py-3 text-base font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
+    >
+      <span className="h-3.5 w-3.5 rotate-45 border-b-2 border-l-2 border-white/86" />
+      {label}
+    </button>
+  );
+}
+
+function Hero({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[linear-gradient(145deg,#5b0d80_0%,#2c073e_48%,#16001f_100%)] p-6 shadow-2xl shadow-fuchsia-950/35">
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-fuchsia-300/20 to-transparent" />
+      <div className="relative">
+        <p className="text-sm font-black uppercase tracking-[0.16em] text-fuchsia-100/82">
+          {subtitle}
+        </p>
+        <h1 className="mt-4 text-5xl font-black leading-none tracking-normal text-white">
+          {title}
+        </h1>
+        <p className="mt-5 text-base leading-7 text-white/74">{children}</p>
+      </div>
+    </section>
   );
 }
 
@@ -201,6 +169,15 @@ function InfoSection({
       <SectionTitle>{title}</SectionTitle>
       <div className="mt-3">{children}</div>
     </section>
+  );
+}
+
+function InfoCard({ title, body }: { title: string; body: string }) {
+  return (
+    <article className="rounded-[24px] border border-white/12 bg-white/[0.07] p-5 shadow-xl shadow-fuchsia-950/20 backdrop-blur">
+      <h3 className="text-xl font-black tracking-normal text-white">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-white/70">{body}</p>
+    </article>
   );
 }
 

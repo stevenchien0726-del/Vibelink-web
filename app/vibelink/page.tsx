@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/lib/i18n";
 
 const galleryImages = [
   {
@@ -20,33 +21,8 @@ const galleryImages = [
   },
 ];
 
-const features = [
-  {
-    title: "AI Radar",
-    body: "輸入一句話，AI 幫你找到適合認識的人。",
-  },
-  {
-    title: "People Library",
-    body: "整理你追蹤、收藏與互動過的人。",
-  },
-  {
-    title: "Feed",
-    body: "分享生活貼文、照片與短影音。",
-  },
-  {
-    title: "Message",
-    body: "與你感興趣的人直接開始聊天。",
-  },
-];
-
-const progress = [
-  "MVP Beta 測試中",
-  "iOS TestFlight 準備中",
-  "App Store 即將上線",
-  "Android 版本規劃中",
-];
-
 export default function VibelinkPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const [isClosing, setIsClosing] = useState(false);
 
@@ -74,33 +50,21 @@ export default function VibelinkPage() {
           if (isClosing) router.push("/");
         }}
       >
-        <button
-          type="button"
-          onClick={handleBack}
-          className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.08] px-5 py-3 text-base font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
-        >
-          <span className="h-3.5 w-3.5 rotate-45 border-b-2 border-l-2 border-white/86" />
-          Back
-        </button>
+        <BackButton label={t.common.back} onClick={handleBack} />
 
-        <section className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[linear-gradient(145deg,#5b0d80_0%,#2c073e_48%,#16001f_100%)] p-6 shadow-2xl shadow-fuchsia-950/35">
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-fuchsia-300/20 to-transparent" />
-          <div className="relative">
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-fuchsia-100/82">
-              Find Your Vibe
-            </p>
-            <h1 className="mt-4 text-5xl font-black leading-none tracking-normal text-white">
-              VIBELINK
-            </h1>
-            <p className="mt-5 text-base leading-7 text-white/74">
-              VIBELINK 是 VIBE CITY 的第一個核心產品，一個結合 AI
-              雷達、內容分享、People Library 與即時訊息的下一代社交平台。
-            </p>
-          </div>
-        </section>
+        <Hero title={t.vibelink.title} subtitle={t.vibelink.subtitle}>
+          {t.vibelink.body}
+        </Hero>
 
         <section className="mt-5">
-        
+          <div className="mb-3 flex items-end justify-between gap-3 px-1">
+            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-fuchsia-100/82">
+              {t.vibelink.preview}
+            </h2>
+            <p className="text-xs font-semibold text-white/48">
+              {t.vibelink.swipe}
+            </p>
+          </div>
           <div className="-mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {galleryImages.map((image, index) => (
               <figure
@@ -121,27 +85,15 @@ export default function VibelinkPage() {
         </section>
 
         <section className="mt-5 grid gap-3">
-          {features.map((feature) => (
-            <article
-              key={feature.title}
-              className="rounded-[24px] border border-white/12 bg-white/[0.07] p-5 shadow-xl shadow-fuchsia-950/20 backdrop-blur"
-            >
-              <h2 className="text-xl font-black tracking-normal text-white">
-                {feature.title}
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-white/70">
-                {feature.body}
-              </p>
-            </article>
+          {t.vibelink.features.map(([title, body]) => (
+            <InfoCard key={title} title={title} body={body} />
           ))}
         </section>
 
         <section className="mt-5 rounded-[24px] border border-fuchsia-100/14 bg-[#22052f]/86 p-5 shadow-xl shadow-fuchsia-950/20">
-          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-fuchsia-100/80">
-            目前進度
-          </h2>
+          <SectionTitle>{t.vibelink.progressTitle}</SectionTitle>
           <div className="mt-4 grid gap-3">
-            {progress.map((item) => (
+            {t.vibelink.progress.map((item) => (
               <div
                 key={item}
                 className="flex items-center gap-3 rounded-2xl bg-white/[0.07] px-4 py-3 text-sm font-semibold text-white/82"
@@ -159,9 +111,70 @@ export default function VibelinkPage() {
           rel="noopener noreferrer"
           className="mt-5 flex h-20 items-center justify-center rounded-[30px] bg-[#c77aea] px-6 text-xl font-black text-[#1f0629] shadow-2xl shadow-fuchsia-950/35 transition hover:-translate-y-0.5 hover:bg-[#d68bf3] active:translate-y-0"
         >
-          加入 Beta
+          {t.vibelink.cta}
         </a>
       </motion.div>
     </main>
+  );
+}
+
+function BackButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.08] px-5 py-3 text-base font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
+    >
+      <span className="h-3.5 w-3.5 rotate-45 border-b-2 border-l-2 border-white/86" />
+      {label}
+    </button>
+  );
+}
+
+function Hero({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[linear-gradient(145deg,#5b0d80_0%,#2c073e_48%,#16001f_100%)] p-6 shadow-2xl shadow-fuchsia-950/35">
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-fuchsia-300/20 to-transparent" />
+      <div className="relative">
+        <p className="text-sm font-black uppercase tracking-[0.22em] text-fuchsia-100/82">
+          {subtitle}
+        </p>
+        <h1 className="mt-4 text-5xl font-black leading-none tracking-normal text-white">
+          {title}
+        </h1>
+        <p className="mt-5 text-base leading-7 text-white/74">{children}</p>
+      </div>
+    </section>
+  );
+}
+
+function InfoCard({ title, body }: { title: string; body: string }) {
+  return (
+    <article className="rounded-[24px] border border-white/12 bg-white/[0.07] p-5 shadow-xl shadow-fuchsia-950/20 backdrop-blur">
+      <h2 className="text-xl font-black tracking-normal text-white">{title}</h2>
+      <p className="mt-2 text-sm leading-6 text-white/70">{body}</p>
+    </article>
+  );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-sm font-black uppercase tracking-[0.2em] text-fuchsia-100/80">
+      {children}
+    </h2>
   );
 }
