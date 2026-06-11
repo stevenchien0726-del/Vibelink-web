@@ -182,10 +182,15 @@ export default function HomePage() {
               VIBE TV
             </Link>
 
-            <Link href="#" onClick={() => setOpen(false)}>
+            <a
+              href="https://vibe-membership-web.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
               VIBE會員
-            </Link>
-            <Link href="#" onClick={() => setOpen(false)}>
+            </a>
+            <Link href="/vibe-ecosystem" onClick={() => setOpen(false)}>
               VIBE生態系
             </Link>
             
