@@ -175,7 +175,7 @@ export default function HomePage() {
           transition={{ duration: 0.24, ease: "easeOut" }}
         >
           <div className="flex flex-col gap-6 text-[21px] font-black tracking-wide">
-            <Link href="#vibelink" onClick={() => setOpen(false)}>
+            <Link href="/vibelink" onClick={() => setOpen(false)}>
               VIBELINK
             </Link>
             <Link href="#" onClick={() => setOpen(false)}>
