@@ -25,7 +25,7 @@ export default function AboutPage() {
   };
 
   const contacts = [
-    ["General Inquiries", "stevenchien0726@gmail.com", "mailto:stevenchien0726@gmail.com"],
+    
     ["Business & Partnership", "stevenchien0726@gmail.com", "mailto:stevenchien0726@gmail.com"],
     ["Investment Opportunities", "stevenchien0726@gmail.com", "mailto:stevenchien0726@gmail.com"],
     ["Instagram", "@vibe_city_official", "https://www.instagram.com/vibe_city_official"],

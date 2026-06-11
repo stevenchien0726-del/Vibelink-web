@@ -299,7 +299,6 @@ export const translations = {
       subtitle: "Let’s Build The Future Together.",
       body: "歡迎品牌、投資人、創作者、媒體與技術夥伴和 VIBE CITY 聯繫。",
       items: [
-        ["General Inquiries", "stevenchien0726@gmail.com"],
         ["Business & Partnership", "stevenchien0726@gmail.com"],
         ["Investment Opportunities", "stevenchien0726@gmail.com"],
         ["Instagram", "@vibe_city_official"],
@@ -595,7 +594,6 @@ export const translations = {
       subtitle: "Let’s Build The Future Together.",
       body: "Brands, investors, creators, media, and technology partners are welcome to contact VIBE CITY.",
       items: [
-        ["General Inquiries", "stevenchien0726@gmail.com"],
         ["Business & Partnership", "stevenchien0726@gmail.com"],
         ["Investment Opportunities", "stevenchien0726@gmail.com"],
         ["Instagram", "@vibe_city_official"],
