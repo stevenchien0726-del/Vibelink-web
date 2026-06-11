@@ -178,7 +178,7 @@ export default function HomePage() {
             <Link href="/vibelink" onClick={() => setOpen(false)}>
               VIBELINK
             </Link>
-            <Link href="#" onClick={() => setOpen(false)}>
+            <Link href="/vibe-tv" onClick={() => setOpen(false)}>
               VIBE TV
             </Link>
 

@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const galleryImages = [
   {
@@ -43,15 +47,41 @@ const progress = [
 ];
 
 export default function VibelinkPage() {
+  const router = useRouter();
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleBack = () => {
+    if (isClosing) return;
+    setIsClosing(true);
+  };
+
   return (
-    <main className="min-h-screen bg-[#120018] px-5 py-5 text-white">
-      <div className="mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-[430px] flex-col">
-        <Link
-          href="/"
-          className="mb-8 inline-flex w-fit items-center rounded-full border border-white/12 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
+    <main className="min-h-screen overflow-x-hidden bg-[#120018] px-5 py-5 text-white">
+      <motion.div
+        className="mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-[430px] flex-col"
+        initial={{ x: 88, opacity: 0, scale: 0.96 }}
+        animate={
+          isClosing
+            ? { x: "110%", opacity: 0, scale: 0.96 }
+            : { x: 0, opacity: 1, scale: 1 }
+        }
+        transition={
+          isClosing
+            ? { duration: 0.28, ease: "easeIn" }
+            : { type: "spring", stiffness: 420, damping: 32, mass: 0.8 }
+        }
+        onAnimationComplete={() => {
+          if (isClosing) router.push("/");
+        }}
+      >
+        <button
+          type="button"
+          onClick={handleBack}
+          className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.08] px-5 py-3 text-base font-bold text-white/86 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.14]"
         >
-          ← Back
-        </Link>
+          <span className="text-xl leading-none">&lt;</span>
+          Back
+        </button>
 
         <section className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[linear-gradient(145deg,#5b0d80_0%,#2c073e_48%,#16001f_100%)] p-6 shadow-2xl shadow-fuchsia-950/35">
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-fuchsia-300/20 to-transparent" />
@@ -131,7 +161,7 @@ export default function VibelinkPage() {
         >
           加入 Beta
         </a>
-      </div>
+      </motion.div>
     </main>
   );
 }
