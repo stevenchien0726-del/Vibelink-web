@@ -1,11 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  type Transition,
+  type Variants,
+} from "framer-motion";
 import { Globe2, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type Locale, useI18n } from "@/lib/i18n";
+
+const menuPanelVariants: Variants = {
+  closed: { opacity: 0, y: -10 },
+  open: { opacity: 1, y: 0 },
+};
+
+const menuPanelTransition: Transition = {
+  duration: 0.18,
+  ease: [0.22, 1, 0.36, 1],
+};
 
 export default function HomePage() {
   const { locale, setLocale, t } = useI18n();
@@ -62,6 +77,16 @@ export default function HomePage() {
     setLanguageOpen(false);
   };
 
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    setLanguageOpen(false);
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setLanguageOpen(false);
+    setOpen((current) => !current);
+  }, []);
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#120018] text-white">
       <div className="pointer-events-auto fixed inset-x-0 top-0 z-[99999] w-full px-4 pt-4 sm:px-8 lg:px-12">
@@ -87,7 +112,7 @@ export default function HomePage() {
 
           <button
             type="button"
-            onClick={() => setOpen((current) => !current)}
+            onClick={toggleMenu}
             className="flex h-[64px] w-[132px] items-center justify-center gap-3 rounded-[22px] bg-[#b76bd6]/55 text-[17px] font-bold text-white shadow-2xl shadow-fuchsia-950/30 backdrop-blur transition active:scale-95 sm:w-[150px]"
             aria-expanded={open}
             aria-controls="home-menu"
@@ -97,27 +122,29 @@ export default function HomePage() {
           </button>
         </header>
 
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {open ? (
             <>
               <motion.button
                 type="button"
                 aria-label="Close menu"
                 className="fixed inset-0 z-[99997] cursor-default bg-transparent"
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: 0.12 }}
               />
 
               <div className="fixed left-1/2 top-[108px] z-[99998] w-[78%] max-w-[330px] -translate-x-1/2 sm:max-w-[460px]">
                 <motion.nav
                   id="home-menu"
-                  className="relative rounded-[24px] bg-[#b98bd0] px-7 py-8 text-center text-[#1f1f1f] shadow-2xl shadow-fuchsia-950/35"
-                  initial={{ opacity: 0, y: -12, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -12, scale: 0.96 }}
-                  transition={{ duration: 0.24, ease: "easeOut" }}
+                  className="relative transform-gpu rounded-[24px] bg-[#b98bd0] px-7 py-8 text-center text-[#1f1f1f] shadow-2xl shadow-fuchsia-950/35 will-change-transform"
+                  variants={menuPanelVariants}
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  transition={menuPanelTransition}
                 >
                   <div className="hidden">
                     <button
@@ -159,30 +186,30 @@ export default function HomePage() {
                   </div>
 
                   <div className="flex flex-col gap-6 text-[21px] font-black tracking-wide">
-                    <Link href="/vibelink" onClick={() => setOpen(false)}>
+                    <Link href="/vibelink" onClick={closeMenu}>
                       {t.menu.vibelink}
                     </Link>
-                    <Link href="/vibe-tv" onClick={() => setOpen(false)}>
+                    <Link href="/vibe-tv" onClick={closeMenu}>
                       {t.menu.tv}
                     </Link>
                     <a
                       href="https://vibe-membership-web.vercel.app"
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => setOpen(false)}
+                      onClick={closeMenu}
                     >
                       {t.menu.membership}
                     </a>
                     <Link
                       href="/vibe-ecosystem"
-                      onClick={() => setOpen(false)}
+                      onClick={closeMenu}
                     >
                       {t.menu.ecosystem}
                     </Link>
-                    <Link href="/about" onClick={() => setOpen(false)}>
+                    <Link href="/about" onClick={closeMenu}>
                       {t.menu.about}
                     </Link>
-                    <Link href="/investor" onClick={() => setOpen(false)}>
+                    <Link href="/investor" onClick={closeMenu}>
                       {t.menu.investor}
                     </Link>
                     
