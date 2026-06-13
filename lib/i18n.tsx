@@ -240,16 +240,9 @@ export const translations = {
       highlight: "AI × Social × Entertainment",
       accordions: [
         {
-          title: "Our Vision",
-          paragraphs: [
-            "打造全球化 AI × Social × Entertainment 生態系。",
-            "從 Vibelink 出發，逐步擴展至內容、創作者、娛樂與線下社群體驗。",
-          ],
-        },
-        {
           title: "Current Focus",
           lead: "Vibelink",
-          bullets: ["AI Radar", "People Library", "Social Feed", "Short Videos"],
+          bullets: ["AI Radar", "People Library", "Social Feed"],
           paragraphs: ["目前正進行產品驗證與早期用戶成長。"],
         },
         {
@@ -260,16 +253,6 @@ export const translations = {
             "VIBE CLUB — Planning",
             "Angel Entertainment — Planning",
             "VIBE CITY Ecosystem",
-          ],
-        },
-        {
-          title: "Investment & Partnership",
-          paragraphs: ["歡迎以下夥伴與我們交流："],
-          bullets: [
-            "Angel Investors",
-            "Strategic Partners",
-            "Media Partners",
-            "Technology Partners",
           ],
         },
         {
@@ -535,13 +518,6 @@ export const translations = {
       highlight: "AI × Social × Entertainment",
       accordions: [
         {
-          title: "Our Vision",
-          paragraphs: [
-            "Build a global AI × Social × Entertainment ecosystem.",
-            "Starting from Vibelink, we will gradually expand into content, creators, entertainment, and offline community experiences.",
-          ],
-        },
-        {
           title: "Current Focus",
           lead: "Vibelink",
           bullets: ["AI Radar", "People Library", "Social Feed", "Short Videos"],
@@ -555,16 +531,6 @@ export const translations = {
             "VIBE CLUB — Planning",
             "Angel Entertainment — Planning",
             "VIBE CITY Ecosystem",
-          ],
-        },
-        {
-          title: "Investment & Partnership",
-          paragraphs: ["We welcome conversations with:"],
-          bullets: [
-            "Angel Investors",
-            "Strategic Partners",
-            "Media Partners",
-            "Technology Partners",
           ],
         },
         {
