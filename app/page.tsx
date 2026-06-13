@@ -185,9 +185,7 @@ export default function HomePage() {
                     <Link href="/investor" onClick={() => setOpen(false)}>
                       {t.menu.investor}
                     </Link>
-                    <Link href="/contact" onClick={() => setOpen(false)}>
-                      {t.menu.contact}
-                    </Link>
+                    
                   </div>
 
                   <div className="relative mx-auto mt-7 flex w-fit flex-col items-center">
