@@ -401,6 +401,17 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <footer className="px-5 pb-10 pt-2 sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-6xl justify-center border-t border-white/10 pt-8">
+          <Link
+            href="/privacy"
+            className="rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm font-bold text-fuchsia-50/82 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.12] hover:text-white"
+          >
+            隱私權政策 / Privacy Policy
+          </Link>
+        </div>
+      </footer>
     </main>
   );
 }
