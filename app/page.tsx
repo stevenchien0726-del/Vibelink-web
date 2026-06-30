@@ -416,6 +416,12 @@ export default function HomePage() {
           >
             刪除帳戶 / Delete Account
           </Link>
+          <Link
+            href="/child-safety"
+            className="rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm font-bold text-fuchsia-50/82 shadow-lg shadow-fuchsia-950/20 transition hover:bg-white/[0.12] hover:text-white"
+          >
+            Child Safety Standards
+          </Link>
         </div>
       </footer>
     </main>
