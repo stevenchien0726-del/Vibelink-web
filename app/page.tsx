@@ -272,9 +272,11 @@ export default function HomePage() {
             <p className="mt-7 max-w-3xl text-2xl font-semibold leading-snug text-fuchsia-50 sm:text-4xl">
               {t.home.heroSubtitle}
             </p>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
-              {t.home.heroBody}
-            </p>
+            {t.home.heroBody && (
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
+                {t.home.heroBody}
+              </p>
+            )}
 
             <div className="mt-8 flex flex-wrap gap-3">
               {[

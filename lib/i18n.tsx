@@ -37,9 +37,9 @@ export const translations = {
     },
     home: {
       heroTitle: "VIBE CITY",
-      heroSubtitle: "下一代全球最具影響力的 AI 社交 × 娛樂文化生態系",
-      heroBody:
-        "從 Vibelink 出發，打造結合 AI 社交、影音內容、會員訂閱與青年娛樂文化的全球化平台。",
+      heroSubtitle:
+        "建立有長期價值的去體制化創新體驗與服務，同時打造完整的 AI 社交與娛樂文化生態系。",
+      heroBody: "",
       navButtons: {
         problem: "Problem",
         solution: "Solution",
