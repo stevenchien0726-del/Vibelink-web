@@ -95,21 +95,33 @@ export default function VibelinkPage() {
           <div className="mt-4 grid gap-3">
             {t.vibelink.progress.map((item) => (
               <div
-                key={item}
-                className="flex items-center gap-3 rounded-2xl bg-white/[0.07] px-4 py-3 text-sm font-semibold text-white/82"
+                key={item.title}
+                className="flex min-w-0 items-center justify-between gap-3 rounded-2xl bg-white/[0.07] px-4 py-3 text-sm font-semibold text-white/82"
               >
-                <span className="h-2.5 w-2.5 rounded-full bg-fuchsia-300 shadow-[0_0_18px_rgba(240,171,252,0.9)]" />
-                {item}
+                <span className="min-w-0 truncate font-bold text-white/90">
+                  {item.title}
+                </span>
+                <span
+                  className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-xs font-black ${
+                    item.tone === "available"
+                      ? "border-fuchsia-200/35 bg-fuchsia-300/20 text-fuchsia-50 shadow-[0_0_18px_rgba(232,121,249,0.18)]"
+                      : item.tone === "complete"
+                        ? "border-emerald-200/25 bg-emerald-300/10 text-emerald-100"
+                        : "border-white/15 bg-white/[0.06] text-white/65"
+                  }`}
+                >
+                  {item.status}
+                </span>
               </div>
             ))}
           </div>
         </section>
 
         <a
-          href="https://vibelink-beta-access.vercel.app"
+          href="https://apps.apple.com/tw/app/vibelink-social/id6778701913"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 flex h-20 items-center justify-center rounded-[30px] bg-[#c77aea] px-6 text-xl font-black text-[#1f0629] shadow-2xl shadow-fuchsia-950/35 transition hover:-translate-y-0.5 hover:bg-[#d68bf3] active:translate-y-0"
+          className="mt-5 flex h-20 w-full items-center justify-center rounded-[30px] bg-[#c77aea] px-6 text-center text-xl font-black text-[#1f0629] shadow-2xl shadow-fuchsia-950/35 transition hover:-translate-y-0.5 hover:bg-[#d68bf3] active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-100 focus-visible:ring-offset-2 focus-visible:ring-offset-[#120018]"
         >
           {t.vibelink.cta}
         </a>

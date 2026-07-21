@@ -46,6 +46,12 @@ export const translations = {
         product: "First Product",
         validation: "Validation",
       },
+      appStoreAnnouncement: {
+        eyebrow: "NOW AVAILABLE",
+        title: "Vibelink 已正式上架 iOS App Store",
+        body: "立即下載 Vibelink，體驗 AI Radar、People Library、Feed 與即時訊息功能。",
+        cta: "前往 iOS App Store",
+      },
       problem: {
         eyebrow: "Problem",
         title: "數位社群正在失去真實連結",
@@ -137,12 +143,11 @@ export const translations = {
       ],
       progressTitle: "目前進度",
       progress: [
-        "MVP Beta 測試中",
-        "iOS TestFlight 準備中",
-        "App Store 即將上線",
-        "Android 版本規劃中",
+        { title: "iOS TestFlight", status: "已完成", tone: "complete" },
+        { title: "iOS Store", status: "已上架", tone: "available" },
+        { title: "Android Store", status: "即將上架", tone: "waiting" },
       ],
-      cta: "加入 Beta",
+      cta: "前往 iOS App Store",
     },
     vibeTv: {
       title: "VIBE TV",
@@ -322,6 +327,12 @@ export const translations = {
         product: "First Product",
         validation: "Validation",
       },
+      appStoreAnnouncement: {
+        eyebrow: "NOW AVAILABLE",
+        title: "Vibelink is now available on the iOS App Store",
+        body: "Download Vibelink now and experience AI Radar, People Library, Feed, and real-time messaging.",
+        cta: "View on the iOS App Store",
+      },
       problem: {
         eyebrow: "Problem",
         title: "Digital communities are losing real connection",
@@ -413,12 +424,11 @@ export const translations = {
       ],
       progressTitle: "Progress",
       progress: [
-        "MVP Beta testing",
-        "iOS TestFlight preparing",
-        "App Store coming soon",
-        "Android version planning",
+        { title: "iOS TestFlight", status: "Completed", tone: "complete" },
+        { title: "iOS Store", status: "Available", tone: "available" },
+        { title: "Android Store", status: "Coming soon", tone: "waiting" },
       ],
-      cta: "Join Beta",
+      cta: "View on the iOS App Store",
     },
     vibeTv: {
       title: "VIBE TV",

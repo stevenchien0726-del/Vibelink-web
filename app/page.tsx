@@ -297,6 +297,36 @@ export default function HomePage() {
             </div>
           </div>
 
+          <aside
+            aria-labelledby="app-store-announcement-title"
+            className="mt-8 overflow-hidden rounded-[28px] border border-fuchsia-300/25 bg-[#260735]/75 p-5 shadow-[0_20px_70px_rgba(168,45,255,0.2),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl sm:p-7"
+          >
+            <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+              <div className="min-w-0">
+                <p className="inline-flex rounded-full border border-fuchsia-200/20 bg-fuchsia-300/15 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-fuchsia-100">
+                  {t.home.appStoreAnnouncement.eyebrow}
+                </p>
+                <h2
+                  id="app-store-announcement-title"
+                  className="mt-3 text-2xl font-black leading-snug text-white sm:text-3xl"
+                >
+                  {t.home.appStoreAnnouncement.title}
+                </h2>
+                <p className="mt-2 max-w-2xl text-base leading-7 text-white/72">
+                  {t.home.appStoreAnnouncement.body}
+                </p>
+              </div>
+              <a
+                href="https://apps.apple.com/tw/app/vibelink-social/id6778701913"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full shrink-0 items-center justify-center rounded-2xl bg-gradient-to-r from-fuchsia-400 to-violet-500 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-fuchsia-950/35 transition duration-200 hover:-translate-y-0.5 hover:from-fuchsia-300 hover:to-violet-400 active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#260735] sm:w-auto"
+              >
+                {t.home.appStoreAnnouncement.cta}
+              </a>
+            </div>
+          </aside>
+
           <div className="relative mt-10 -mx-4 overflow-hidden sm:-mx-8 lg:-mx-12">
             <div className="absolute -inset-4 bg-fuchsia-500/18 blur-3xl" />
             <figure className="relative overflow-hidden">
