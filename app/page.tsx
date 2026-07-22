@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
   type Transition,
   type Variants,
 } from "framer-motion";
-import { Globe2, Menu } from "lucide-react";
+import { Globe2, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type Locale, useI18n } from "@/lib/i18n";
@@ -26,6 +26,27 @@ export default function HomePage() {
   const { locale, setLocale, t } = useI18n();
   const [open, setOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [membershipModalOpen, setMembershipModalOpen] = useState(false);
+  const membershipButtonRef = useRef<HTMLButtonElement>(null);
+  const modalConfirmButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeMembershipModal = useCallback(() => {
+    setMembershipModalOpen(false);
+    window.requestAnimationFrame(() => membershipButtonRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    if (!membershipModalOpen) return;
+
+    modalConfirmButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMembershipModal();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [closeMembershipModal, membershipModalOpen]);
 
   const scrollToTop = () => {
     const startPosition = window.scrollY;
@@ -192,14 +213,14 @@ export default function HomePage() {
                     <Link href="/vibe-tv" onClick={closeMenu}>
                       {t.menu.tv}
                     </Link>
-                    <a
-                      href="https://vibe-membership-web.vercel.app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={closeMenu}
+                    <button
+                      ref={membershipButtonRef}
+                      type="button"
+                      aria-label="VIBE MEMBERSHIP"
+                      onClick={() => setMembershipModalOpen(true)}
                     >
                       {t.menu.membership}
-                    </a>
+                    </button>
                     <Link
                       href="/vibe-ecosystem"
                       onClick={closeMenu}
@@ -259,6 +280,62 @@ export default function HomePage() {
           ) : null}
         </AnimatePresence>
       </div>
+
+      <AnimatePresence>
+        {membershipModalOpen ? (
+          <motion.div
+            className="fixed inset-0 z-[100100] flex items-center justify-center bg-black/70 p-5 backdrop-blur-sm"
+            onClick={closeMembershipModal}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="membership-modal-title"
+              aria-describedby="membership-modal-description"
+              className="relative w-full max-w-md rounded-[28px] border border-fuchsia-200/20 bg-[#351044]/95 p-7 text-center text-white shadow-[0_28px_90px_rgba(0,0,0,0.55)] sm:p-8"
+              onClick={(event) => event.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 8 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <button
+                type="button"
+                aria-label="關閉 Vibe Membership 提醒"
+                onClick={closeMembershipModal}
+                className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200"
+              >
+                <X size={22} aria-hidden="true" />
+              </button>
+
+              <h2
+                id="membership-modal-title"
+                className="pr-8 text-2xl font-black tracking-wide"
+              >
+                Vibe Membership
+              </h2>
+              <p
+                id="membership-modal-description"
+                className="mt-5 text-base font-semibold text-white/80"
+              >
+                會員網頁尚未開啟
+              </p>
+              <button
+                ref={modalConfirmButtonRef}
+                type="button"
+                onClick={closeMembershipModal}
+                className="mt-7 w-full rounded-2xl bg-gradient-to-r from-fuchsia-500 to-violet-500 px-6 py-3.5 text-base font-black text-white shadow-lg shadow-fuchsia-950/40 transition hover:from-fuchsia-400 hover:to-violet-400 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#351044]"
+              >
+                確定
+              </button>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       <section className="relative isolate px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-12">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(191,75,255,0.38),transparent_34%),radial-gradient(circle_at_80%_0%,rgba(111,66,255,0.32),transparent_30%),linear-gradient(180deg,#4c086c_0%,#230432_52%,#120018_100%)]" />
