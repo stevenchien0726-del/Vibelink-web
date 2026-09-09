@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n";
+import { vibelinkLinks } from "@/lib/vibelink-links";
 
 const galleryImages = [
   {
@@ -118,7 +119,7 @@ export default function VibelinkPage() {
         </section>
 
         <a
-          href="https://apps.apple.com/tw/app/vibelink-social/id6778701913"
+          href={vibelinkLinks.appStore}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-5 flex h-20 w-full items-center justify-center rounded-[30px] bg-[#c77aea] px-6 text-center text-xl font-black text-[#1f0629] shadow-2xl shadow-fuchsia-950/35 transition hover:-translate-y-0.5 hover:bg-[#d68bf3] active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-100 focus-visible:ring-offset-2 focus-visible:ring-offset-[#120018]"

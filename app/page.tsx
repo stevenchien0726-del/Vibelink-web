@@ -11,6 +11,7 @@ import { Globe2, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type Locale, useI18n } from "@/lib/i18n";
+import { vibelinkLinks } from "@/lib/vibelink-links";
 
 const menuPanelVariants: Variants = {
   closed: { opacity: 0, y: -10 },
@@ -160,7 +161,7 @@ export default function HomePage() {
               <div className="fixed left-1/2 top-[108px] z-[99998] w-[78%] max-w-[330px] -translate-x-1/2 sm:max-w-[460px]">
                 <motion.nav
                   id="home-menu"
-                  className="relative transform-gpu rounded-[24px] bg-[#b98bd0] px-7 py-8 text-center text-[#1f1f1f] shadow-2xl shadow-fuchsia-950/35 will-change-transform"
+                  className="relative max-h-[calc(100dvh-132px)] overflow-y-auto transform-gpu rounded-[24px] bg-[#b98bd0] px-7 py-8 text-center text-[#1f1f1f] shadow-2xl shadow-fuchsia-950/35 will-change-transform"
                   variants={menuPanelVariants}
                   initial="closed"
                   animate="open"
@@ -209,6 +210,9 @@ export default function HomePage() {
                   <div className="flex flex-col gap-6 text-[21px] font-black tracking-wide">
                     <Link href="/vibelink" onClick={closeMenu}>
                       {t.menu.vibelink}
+                    </Link>
+                    <Link href="/vibelink/cute-campus-roadmap" onClick={closeMenu}>
+                      中國科大 Campus RoadMap
                     </Link>
                     <Link href="/vibe-tv" onClick={closeMenu}>
                       {t.menu.tv}
@@ -394,7 +398,7 @@ export default function HomePage() {
                 </p>
               </div>
               <a
-                href="https://apps.apple.com/tw/app/vibelink-social/id6778701913"
+                href={vibelinkLinks.appStore}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-full shrink-0 items-center justify-center rounded-2xl bg-gradient-to-r from-fuchsia-400 to-violet-500 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-fuchsia-950/35 transition duration-200 hover:-translate-y-0.5 hover:from-fuchsia-300 hover:to-violet-400 active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#260735] sm:w-auto"
