@@ -81,7 +81,31 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.getByRole('link', { name: '下一關 →', exact: true }).click();
       assert.equal(new URL(page.url()).hash, '#step-2');
       assert.match(await page.getByRole('link', { name: 'App Store 下載' }).getAttribute('href'), /apps\.apple\.com\/tw\/app\/vibelink-social\/id6778701913/);
-      assert.equal(await page.getByRole('link', { name: 'Google Play 下載' }).count(), 0);
+      const googlePlay = page.getByRole('link', { name: 'Google Play 下載' });
+      const googlePlayUrl = 'https://play.google.com/store/apps/details?id=com.vibecity.vibelink';
+      assert.equal(await googlePlay.getAttribute('href'), googlePlayUrl);
+      assert.equal(await googlePlay.getAttribute('target'), '_blank');
+      assert.equal(await googlePlay.getAttribute('rel'), 'noopener noreferrer');
+      assert.equal(await page.getByText('Android — Coming Soon', { exact: true }).count(), 0);
+      assert((await googlePlay.boundingBox()).height >= 44);
+      assert.equal(await googlePlay.evaluate(el => getComputedStyle(el).cursor), 'pointer');
+      // Intercept only the external response: verify the real click's destination
+      // without making the regression suite depend on Google Play availability.
+      await page.context().route(googlePlayUrl, request => request.fulfill({ status: 200, contentType: 'text/html', body: '<title>Store destination verified</title>' }));
+      for (const activation of ['click', 'keyboard']) {
+        const opened = page.waitForEvent('popup');
+        if (activation === 'click') await googlePlay.click();
+        else {
+          await page.keyboard.press('Tab');
+          await googlePlay.focus();
+          assert(await googlePlay.evaluate(el => el.matches(':focus-visible')));
+          await page.keyboard.press('Enter');
+        }
+        const popup = await opened;
+        await popup.waitForLoadState('domcontentloaded');
+        assert.equal(popup.url(), googlePlayUrl);
+        await popup.close();
+      }
       await page.getByRole('link', { name: '準備好了 →' }).click();
       await page.getByRole('link', { name: '完成 → 前往下一關' }).click();
       assert.equal(new URL(page.url()).hash, '#step-4');

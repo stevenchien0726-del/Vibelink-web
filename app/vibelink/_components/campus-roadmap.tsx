@@ -77,7 +77,7 @@ function RoadmapStep({ roadmap, index }: { roadmap: CampusRoadmap; index: number
 function DownloadLinks() {
   return <div className={styles.downloads}>
     <a className={styles.button} href={vibelinkLinks.appStore} target="_blank" rel="noopener noreferrer">App Store 下載 <ArrowUpRight size={18} aria-hidden="true" /><span className={styles.srOnly}>（在新分頁開啟）</span></a>
-    {vibelinkLinks.googlePlay ? <a className={styles.button} href={vibelinkLinks.googlePlay} target="_blank" rel="noopener noreferrer">Google Play 下載<span className={styles.srOnly}>（在新分頁開啟）</span></a> : <div className={styles.unavailable}><span>Google Play 下載</span><small>{vibelinkLinks.androidStatus}</small></div>}
+    <a className={styles.button} href={vibelinkLinks.googlePlay} target="_blank" rel="noopener noreferrer">Google Play 下載<span className={styles.srOnly}>（在新分頁開啟）</span></a>
   </div>;
 }
 
