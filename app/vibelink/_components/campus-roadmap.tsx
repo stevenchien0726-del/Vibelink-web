@@ -4,6 +4,7 @@ import { ArrowUpRight, AtSign, Compass, Download, Radar, Sparkles, UserRound } f
 import { type CampusRoadmap } from "@/lib/campus-roadmap";
 import { vibelinkLinks } from "@/lib/vibelink-links";
 import styles from "./campus-roadmap.module.css";
+import { InterstellarNavigation } from "./interstellar-navigation";
 
 const icons = [Compass, Download, UserRound, AtSign, Radar];
 
@@ -37,16 +38,7 @@ function RoadmapHero({ roadmap }: { roadmap: CampusRoadmap }) {
         <p>{roadmap.hero.intro}</p>
         <a className={styles.button} href="#step-1">{roadmap.hero.cta} <span aria-hidden="true">↘</span></a>
       </div>
-      <div className={styles.heroMap} aria-hidden="true">
-        <div className={styles.orbit} /><div className={styles.orbitInner} />
-        <svg viewBox="0 0 400 400" fill="none"><path d="M70 290 C0 190 250 290 190 190 S390 110 320 60" /></svg>
-        {["01", "02", "03", "04", "05"].map((number, index) => <span key={number} className={`${styles.mapNode} ${styles[`mapNode${index}`]}`}>{number}</span>)}
-        <span className={styles.mapTag}>{roadmap.campus.tag}</span>
-        <span className={styles.mapCaption}>YOUR NEXT CONNECTION<br />STARTS HERE.</span>
-      </div>
-      <nav className={styles.levelNav} aria-label="RoadMap 關卡導覽">
-        {roadmap.steps.map((step, index) => <a key={step.id} href={`#step-${index + 1}`} aria-label={`Step ${index + 1}：${step.title}`}><span>0{index + 1}</span><span>{step.label}</span></a>)}
-      </nav>
+      <InterstellarNavigation tag={roadmap.campus.tag} code={roadmap.campus.code} titles={roadmap.steps.map(step => step.title)} />
     </section>
   );
 }
