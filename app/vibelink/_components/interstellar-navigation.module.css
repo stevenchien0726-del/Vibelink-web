@@ -9,7 +9,7 @@
 .desktopRoute { display: none; }
 .route { stroke: #c795de; stroke-width: 1; stroke-dasharray: 3 8; opacity: .5; vector-effect: non-scaling-stroke; }
 .routeGlow { stroke: #9d4cca; stroke-width: 5; opacity: .07; vector-effect: non-scaling-stroke; }
-.flightSignal { position: absolute; left: 0; top: 0; width: 4px; height: 4px; background: #f5ddff; border-radius: 50%; box-shadow: 0 0 10px 3px #c77aea70; offset-path: shape(from 18% 78%, curve to 70% 61% with 18% 66% / 70% 82%, curve to 24% 43% with 70% 40% / 24% 61%, curve to 74% 27% with 24% 25% / 74% 46%, curve to 34% 9% with 74% 8% / 34% 30%); animation: flight 32s linear infinite; }
+.flightSignal { position: absolute; left: 0; top: 0; width: 18px; height: 18px; overflow: visible; filter: drop-shadow(0 0 3px #c77aea65); offset-anchor: center; offset-rotate: auto; offset-path: shape(from 18% 78%, curve to 70% 61% with 18% 66% / 70% 82%, curve to 24% 43% with 70% 40% / 24% 61%, curve to 74% 27% with 24% 25% / 74% 46%, curve to 34% 9% with 74% 8% / 34% 30%); animation: flight 32s linear infinite; }
 .planetLink { --size: 64px; position: absolute; width: var(--size); height: var(--size); display: grid; place-items: center; transform: translate(-50%, -50%); border-radius: 50%; cursor: pointer; z-index: 2; text-decoration: none; -webkit-tap-highlight-color: #c77aea22; }
 .planetLink > :is(.atmosphere, .surface, .ring, .moon) { pointer-events: none; position: absolute; transition: transform .3s ease, filter .3s ease, opacity .3s ease; }
 .surface { inset: 0; border-radius: 50%; background: radial-gradient(circle at 28% 25%, #e6bdf2 0, #aa5ed2 21%, #60257f 52%, #1e082c 86%); box-shadow: inset -9px -8px 15px #0b001d99, inset 2px 2px 3px #ffe6ff80; }
@@ -56,7 +56,7 @@
   .planetLink { --size: 74px; }.planet2, .planet4 { --size: 82px; }
   .mission { font-size: 9px; }.current { font-size: 8px; }
   .beacon { left: 38%; top: 9%; width: 180px; }.beacon strong { font-size: 22px; }
-  .flightSignal { offset-path: shape(from 10% 65%, curve to 30% 31% with 12% 14% / 29% 9%, curve to 51% 63% with 31% 53% / 40% 90%, curve to 71% 26% with 62% 36% / 58% 6%, curve to 90% 61% with 84% 46% / 95% 20%); }
+  .flightSignal { width: 22px; height: 22px; offset-path: shape(from 10% 65%, curve to 30% 31% with 12% 14% / 29% 9%, curve to 51% 63% with 31% 53% / 40% 90%, curve to 71% 26% with 62% 36% / 58% 6%, curve to 90% 61% with 84% 46% / 95% 20%); }
 }
 @media (min-width: 1100px) { .chart { height: 450px; }.planetLink { --size: 88px; }.planet2, .planet4 { --size: 98px; }.number { font-size: 26px; }.mission { font-size: 10px; } }
 @media (prefers-reduced-motion: reduce) { .navigation *, .navigation *::before { animation: none !important; transition: none !important; }.flightSignal { offset-distance: 42%; }.planetLink:hover .surface, .planetLink:hover .atmosphere { transform: none; } }

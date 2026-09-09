@@ -35,7 +35,16 @@ export function InterstellarNavigation({ tag, code, titles }: { tag: string; cod
             <path className={styles.routeGlow} d="M10 65 C12 14 29 9 30 31 S40 90 51 63 S58 6 71 26 S95 20 90 61" />
             <path className={styles.route} d="M10 65 C12 14 29 9 30 31 S40 90 51 63 S58 6 71 26 S95 20 90 61" />
           </svg>
-          <span className={styles.flightSignal} />
+          <span className={styles.flightSignal} aria-hidden="true">
+            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+              {/* Nose points along +X so offset-rotate follows the route tangent. */}
+              <path d="M2 10.5 6 12 2 13.5Z" fill="#c77aea" opacity=".55" />
+              <path d="M8 9 6 4 14 8M8 15 6 20 14 16" fill="#a860d1" />
+              <path d="M6 9.5 14 8 22 12 14 16 6 14.5Z" fill="#c77aea" />
+              <path d="M8 10.5 14 9 19 12" stroke="#f2dfff" strokeWidth="1" strokeLinecap="round" />
+              <path d="M6 10.5V13.5" stroke="#e2bbf5" strokeWidth="1.5" />
+            </svg>
+          </span>
         </div>
         {missions.map((mission, index) => {
           const href = `#step-${index + 1}`;
