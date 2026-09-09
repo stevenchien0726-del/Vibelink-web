@@ -52,6 +52,7 @@ function InstructionList({ items }: { items: string[] }) {
 
 function RoadmapStep({ roadmap, index }: { roadmap: CampusRoadmap; index: number }) {
   const step = roadmap.steps[index];
+  const screenshot = roadmap.campus.screenshots?.[step.id];
   const Icon = icons[index];
   return (
     <section id={`step-${index + 1}`} tabIndex={-1} className={styles.step} aria-labelledby={`step-title-${index + 1}`}>
@@ -60,6 +61,7 @@ function RoadmapStep({ roadmap, index }: { roadmap: CampusRoadmap; index: number
         <p className={styles.eyebrow}>STEP 0{index + 1} / {step.label}</p>
         <h2 id={`step-title-${index + 1}`}>{step.title}</h2>
         <div className={styles.copy}>{step.paragraphs.map(text => <p key={text}>{text}</p>)}</div>
+        {screenshot ? <Image {...screenshot} alt={screenshot.alt} className={styles.stepScreenshot} sizes="(max-width: 767px) calc(100vw - 106px), (max-width: 965px) calc(50vw - 82px), 400px" loading="lazy" /> : null}
         {step.id === "world" ? <div className={styles.features}>{roadmap.features.map(([title, body], i) => { const FeatureIcon = [Radar, AtSign, Compass][i]; return <div key={title}><FeatureIcon size={22} aria-hidden="true" /><div><h3>{title}</h3><p>{body}</p></div></div>; })}</div> : null}
         {step.id === "download" ? <DownloadLinks /> : null}
         {step.id === "profile" ? <><p className={styles.smallLabel}>MISSION</p><InstructionList items={roadmap.missions} /><aside className={styles.tip}><h3>{roadmap.tip.title}</h3><p>{roadmap.tip.body}</p></aside></> : null}

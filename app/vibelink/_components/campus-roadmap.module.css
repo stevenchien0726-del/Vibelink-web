@@ -19,6 +19,7 @@
 .step::before { content: ''; position: absolute; width: 2px; top: 0; bottom: 0; left: 23px; background: repeating-linear-gradient(to bottom, #a85dcc88 0 6px, transparent 6px 13px); }
 .node { position: absolute; top: 0; left: -2px; width: 52px; height: 76px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; border: 1px solid #cf8cec; border-radius: 28px; background: #310d42; color: #efd4ff; box-shadow: 0 0 22px #c77aea20; font-weight: 900; z-index: 1; }
 .stepBody { position: relative; min-width: 0; }
+.stepScreenshot { display: block; width: 100%; max-width: 400px; height: auto; margin: 20px auto; border-radius: 20px; overflow: hidden; }
 .step h2 { font-weight: 800; font-size: clamp(24px, 3vw, 34px); line-height: 1.4; margin: 10px 0 22px; letter-spacing: -.03em; }
 .copy p { color: #d2c5db; font-size: 15px; line-height: 1.9; margin: 0 0 14px; }
 .features { margin: 25px 0; }.features > div { display: flex; gap: 13px; padding: 16px 0; border-bottom: 1px solid #c77aea22; }.features svg { color: var(--purple); flex-shrink: 0; margin-top: 3px; }.features h3 { font-weight: 800; font-size: 17px; }.features p { font-size: 13px; line-height: 1.8; color: var(--muted); margin-top: 4px; }

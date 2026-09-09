@@ -77,6 +77,25 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.goto(base + route);
       if (output) await page.screenshot({ path: path.join(output, `roadmap-${width}.png`), fullPage: true });
       assert.equal(await page.getByRole('link', { name: '開始 RoadMap' }).count(), 0);
+      for (const [stepNumber, filename, imageHeight] of [[3, 'cute-profile-upload.png', 1356], [4, 'cute-atomic-tags-search.png', 1434], [5, 'cute-ai-radar-input.png', 1473]]) {
+        const screenshot = page.locator(`#step-${stepNumber} img`);
+        await screenshot.scrollIntoViewIfNeeded();
+        await screenshot.evaluate(img => img.decode());
+        const imageInfo = await screenshot.evaluate(img => {
+          const box = img.getBoundingClientRect(), parent = img.parentElement.getBoundingClientRect(), style = getComputedStyle(img);
+          return { src: decodeURIComponent(img.currentSrc), width: box.width, height: box.height, radius: style.borderRadius, loading: img.loading, alt: img.alt, intrinsicWidth: img.getAttribute('width'), intrinsicHeight: img.getAttribute('height'), gap: box.top - img.previousElementSibling.getBoundingClientRect().bottom, centered: Math.abs((box.left + box.right) - (parent.left + parent.right)) < 1, loaded: img.complete && img.naturalWidth > 0 };
+        });
+        assert(imageInfo.src.includes(`/campus-roadmap/${filename}`));
+        assert(imageInfo.loaded && imageInfo.centered && imageInfo.width <= 400);
+        assert(Math.abs(imageInfo.height / imageInfo.width - imageHeight / 660) < .002);
+        assert.equal(imageInfo.intrinsicWidth, '660');
+        assert.equal(imageInfo.intrinsicHeight, String(imageHeight));
+        assert.equal(imageInfo.radius, '20px');
+        assert.equal(imageInfo.loading, 'lazy');
+        assert(imageInfo.alt.includes('紅框'));
+        assert(Math.abs(imageInfo.gap - 20) < 1);
+        if (output) await screenshot.screenshot({ path: path.join(output, `step-${stepNumber}-image-${width}.png`) });
+      }
       await planets.nth(0).click();
       assert.equal(new URL(page.url()).hash, '#step-1');
       await page.getByRole('link', { name: '下一關 →', exact: true }).click();

@@ -1,8 +1,13 @@
-export type Campus = { name: string; shortName: string; code: string; tag: string; search: string };
+export type Campus = { name: string; shortName: string; code: string; tag: string; search: string; screenshots?: Record<string, { src: string; width: number; height: number; alt: string }> };
 
 // Add a campus config and a thin route wrapper to reuse the entire onboarding.
 export const cuteCampus: Campus = {
   name: "中國科技大學", shortName: "中國科大", code: "CUTE", tag: "@cute.edu.tw", search: "cute",
+  screenshots: {
+    profile: { src: "/campus-roadmap/cute-profile-upload.png", width: 660, height: 1356, alt: "Vibelink Profile 畫面，右上角「上傳內容」按鈕以紅框標示。" },
+    tag: { src: "/campus-roadmap/cute-atomic-tags-search.png", width: 660, height: 1434, alt: "Vibelink Atomic Tags 畫面，搜尋輸入欄與搜尋按鈕以紅框標示。" },
+    radar: { src: "/campus-roadmap/cute-ai-radar-input.png", width: 660, height: 1473, alt: "Vibelink AI Radar 畫面，@ 按鈕與底部搜尋輸入欄以紅框標示。" },
+  },
 };
 
 export function createCampusRoadmap(campus: Campus) {
