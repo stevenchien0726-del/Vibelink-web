@@ -36,7 +36,6 @@ function RoadmapHero({ roadmap }: { roadmap: CampusRoadmap }) {
         <h1 id="roadmap-title">Campus<br /><span>RoadMap</span><span className={styles.titleDot}>.</span></h1>
         <p className={styles.lead}>{roadmap.hero.lead}</p>
         <p>{roadmap.hero.intro}</p>
-        <a className={styles.button} href="#step-1">{roadmap.hero.cta} <span aria-hidden="true">↘</span></a>
       </div>
       <InterstellarNavigation tag={roadmap.campus.tag} code={roadmap.campus.code} titles={roadmap.steps.map(step => step.title)} />
     </section>

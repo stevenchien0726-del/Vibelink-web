@@ -14,7 +14,6 @@
 .hero p.lead { color: #f7edfc; font-size: 17px; margin-bottom: 8px; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; border-radius: 22px; background: var(--purple); color: #1f0629; font-size: 15px; font-weight: 800; padding: 15px 22px; transition: background .2s, transform .2s; cursor: pointer; }
 .button:hover { background: #d68bf3; transform: translateY(-2px); }
-.heroCopy > .button { margin-top: 26px; }
 .path { max-width: 1120px; margin: auto; padding: 72px 22px 0; }
 .step { position: relative; padding: 0 0 88px 62px; scroll-margin-top: 24px; outline: none; }
 .step::before { content: ''; position: absolute; width: 2px; top: 0; bottom: 0; left: 23px; background: repeating-linear-gradient(to bottom, #a85dcc88 0 6px, transparent 6px 13px); }

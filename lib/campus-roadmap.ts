@@ -9,7 +9,7 @@ export function createCampusRoadmap(campus: Campus) {
   const { name, shortName, code, tag, search } = campus;
   return {
     campus,
-    hero: { brand: `Vibelink × ${name}`, title: "Campus RoadMap", lead: "從加入校園，到找到和你同頻的人。", intro: `5 Steps，開始探索你的${shortName}。`, cta: "開始 RoadMap" },
+    hero: { brand: `Vibelink × ${name}`, title: "Campus RoadMap", lead: "從加入校園，到找到和你同頻的人。", intro: `5 Steps，開始探索你的${shortName}。` },
     steps: [
       { id: "world", title: "進入 Vibelink 世界", label: "DISCOVER", paragraphs: ["Vibelink 是一個用 AI Radar、Atomic Tags 與生活貼文，幫你探索附近校園、興趣社群，以及和你同頻的人的社交 App。", "不是先追蹤誰。", "先告訴 Vibelink 你想找什麼。"], cta: "下一關 →" },
       { id: "download", title: "下載 Vibelink", label: "GET READY", paragraphs: [`準備進入${shortName} Vibelink 社群。`, "下載 Vibelink，登入後就可以開始建立你的校園 Profile。"], cta: "準備好了 →" },
