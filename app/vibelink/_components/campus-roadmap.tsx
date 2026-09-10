@@ -101,7 +101,7 @@ function RoadmapCompletion({ roadmap }: { roadmap: CampusRoadmap }) {
         <span className={styles.confetti} aria-hidden="true">🎉</span>
         <h2>{completion.title}</h2>
         {completion.paragraphs.map(text => <p key={text}>{text}</p>)}
-        <div className={styles.completionEntries}>{completion.entries.map(([title, body], index) => { const EntryIcon = [Compass, Radar, AtSign][index]; return <details key={title}><summary><EntryIcon aria-hidden="true" size={24} /><span>{title}</span><span aria-hidden="true">↗</span></summary><p>{body}</p></details>; })}</div>
+        <div className={styles.completionEntries}>{completion.entries.map(([title, body], index) => { const EntryIcon = [Compass, Radar, AtSign][index]; return <details key={title}><summary><EntryIcon aria-hidden="true" size={24} /><span>{title}</span></summary><p>{body}</p></details>; })}</div>
       </div>
     </details>
   </section>;

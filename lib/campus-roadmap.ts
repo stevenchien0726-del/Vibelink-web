@@ -30,7 +30,7 @@ export function createCampusRoadmap(campus: Campus) {
     prompts: [`找${shortName}喜歡攝影的人`, `找 ${tag} 最近想出去玩的人`, `找${shortName}喜歡寫程式的人`, `找 ${tag} 喜歡看電影的人`, `找${shortName}跟我興趣相近的人`],
     radarInstructions: ["打開 AI Radar", `加入 ${tag}`, "輸入你想找的人", "Search", "看看 Radar 找到誰"],
     radarHint: "在 Vibelink App 中開始探索；此按鈕會帶你回到下載區。",
-    completion: { trigger: "我完成第一次探索了 →", title: `${code} RoadMap Complete`, paragraphs: [`你已經進入 Vibelink ${shortName}校園網絡。`, "接下來沒有標準答案。", "發文、探索 Atomic Tags、使用 AI Radar，找到屬於你的校園連結。"], entries: [ ["探索 Home", "打開 App，看看最新生活貼文。"], ["使用 AI Radar", "打開 App，輸入你想找的人。"], [`查看 ${tag}`, `打開 AI Radar，搜尋並選擇 ${tag}。`] ] },
+    completion: { trigger: "我完成第一次探索了 →", title: `${code} RoadMap Complete`, paragraphs: ["感謝您成為Vibelink早期校園種子用戶，期待未來與您一起見證Vibelink的成長過程"], entries: [ ["探索 Home", "打開 App，看看最新生活貼文。"], ["使用 AI Radar", "打開 App，輸入你想找的人。"], [`查看 ${tag}`, `打開 AI Radar，搜尋並選擇 ${tag}。`] ] },
   };
 }
 export type CampusRoadmap = ReturnType<typeof createCampusRoadmap>;
