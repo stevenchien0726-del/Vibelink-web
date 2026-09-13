@@ -42,3 +42,26 @@
   .path { padding-top: 100px; }.step { display: grid; grid-template-columns: 1fr 1fr; gap: 120px; padding: 0 0 110px; }.step::before { left: 50%; transform: translateX(-50%); }.node { left: 50%; transform: translateX(-50%); width: 76px; height: 100px; border-radius: 42px; font-size: 22px; }.stepBody { grid-column: 1; grid-row: 1; }.step:nth-child(even) .stepBody { grid-column: 2; }.sideLabel { display: flex; flex-direction: column; justify-content: flex-start; padding-top: 65px; gap: 12px; grid-column: 2; grid-row: 1; font-size: 11px; letter-spacing: .2em; color: #aa82bd; }.sideLabel > span { font-size: 140px; line-height: 1; letter-spacing: -.08em; font-weight: 900; color: #c77aea16; }.step:nth-child(even) .sideLabel { grid-column: 1; text-align: right; }.stepBody::before { content: ''; position: absolute; height: 1px; width: 40px; top: 40px; right: -48px; background: #c77aea55; }.step:nth-child(even) .stepBody::before { left: -48px; right: auto; }.completionEntries { grid-template-columns: repeat(3, 1fr); gap: 30px; }.footer { display: flex; align-items: flex-end; justify-content: space-between; }
 }
 @media (prefers-reduced-motion: reduce) { .page *, .page *::before { animation: none !important; transition: none !important; } }
+.exploreBadge { display: inline-block; padding: 5px 12px; border: 1px solid #c77aea70; border-radius: 99px; color: #e2adfa; font-size: 12px; margin-bottom: 18px; }
+.communityExplorer { container-type: inline-size; margin: 26px 0 34px; }
+.categoryButtons { display: flex; gap: 10px; margin-bottom: 18px; }
+.categoryButtons button, .communityCard button { min-width: 44px; min-height: 44px; padding: 10px 18px; border: 1px solid #c77aea70; border-radius: 14px; color: #ead7f3; font-size: 14px; font-weight: 700; cursor: pointer; }
+.categoryButtons button[aria-pressed="true"] { background: var(--purple); color: #21092c; border-color: var(--purple); }
+.communityCards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; list-style: none; padding: 0; }
+.communityCard { min-width: 0; padding: 20px; border: 1px solid #c77aea45; border-radius: 22px; background: linear-gradient(140deg, #32113f, #1c0926); }
+.communityIcon { color: #e2adfa; font-size: 25px; display: block; margin-bottom: 10px; }
+.communityCard h3 { font-size: 19px; font-weight: 800; }
+.communityTag { color: #dca3f6; font-size: 15px; font-weight: 700; margin: 6px 0 12px; overflow-wrap: anywhere; }
+.communityPurpose { color: var(--muted); font-size: 14px; line-height: 1.8; margin-bottom: 18px; }
+.communityCard button { background: #c77aea18; }
+.communityCard button:hover { background: #c77aea33; }
+.copyStatus { color: #e2adfa; font-size: 13px; line-height: 1.7; overflow-wrap: anywhere; }
+.copyStatus:not(:empty) { margin-top: 12px; }
+.copyFallback { display: block; width: 100%; min-width: 0; min-height: 44px; padding: 8px; margin-top: 8px; background: #170620; color: #fff; border: 1px solid #c77aea; border-radius: 8px; user-select: text; }
+.page :is(button, input):focus-visible { outline: 3px solid #f2cfff; outline-offset: 4px; }
+.interestGuide h3 { font-size: 19px; font-weight: 800; margin-top: 30px; }
+.radarExamples { padding: 0; list-style: none; display: grid; gap: 12px; }
+.radarExamples li { border-left: 2px solid #c77aea; padding: 10px 14px; background: #c77aea0c; border-radius: 0 14px 14px 0; font-size: 14px; line-height: 1.8; color: #dccbe5; }
+.radarExamples strong { color: #dca3f6; }
+.completion { scroll-margin-top: 24px; }
+@container (min-width: 440px) { .communityCards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

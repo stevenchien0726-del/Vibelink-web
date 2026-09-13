@@ -16,6 +16,8 @@ const route = '/vibelink/cute-campus-roadmap';
     for (const width of [375, 390, 430, 768, 1440]) {
       const page = await browser.newPage({ viewport: { width, height: width > 500 ? 1000 : 844 }, reducedMotion: 'reduce' });
       const errors = [];
+      const forbiddenRequests = [];
+      page.on('request', req => { if (/supabase|openai|anthropic/i.test(req.url()) || !['GET', 'HEAD'].includes(req.method())) forbiddenRequests.push(req.method() + ' ' + req.url()); });
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
       assert.equal((await page.goto(base)).status(), 200);
@@ -30,7 +32,7 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.waitForURL(`**${route}`);
       await page.getByRole('heading', { level: 1 }).waitFor();
       assert.equal(await page.locator('h1').count(), 1);
-      assert.equal(await page.locator('section[id^="step-"]').count(), 5);
+      assert.equal(await page.locator('section[id^="step-"]').count(), 6);
       assert.equal(await page.locator('html').evaluate(el => getComputedStyle(el).scrollBehavior), 'auto');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       const overflow = await page.locator('main *').evaluateAll(elements => elements.filter(el => {
@@ -39,9 +41,9 @@ const route = '/vibelink/cute-campus-roadmap';
       }).map(el => el.tagName + '.' + el.className));
       assert.deepEqual(overflow, []);
       const planets = page.getByRole('navigation', { name: '星際 RoadMap 關卡導航' }).getByRole('link');
-      assert.equal(await planets.count(), 5);
+      assert.equal(await planets.count(), 6);
       const boxes = [];
-      for (let index = 0; index < 5; index++) {
+      for (let index = 0; index < 6; index++) {
         const planet = planets.nth(index);
         const box = await planet.boundingBox();
         assert(box.width >= 44 && box.height >= 44);
@@ -50,16 +52,18 @@ const route = '/vibelink/cute-campus-roadmap';
       }
       await page.getByRole('navigation', { name: '星際 RoadMap 關卡導航' }).scrollIntoViewIfNeeded();
       if (output) await page.screenshot({ path: path.join(output, `planets-${width}.png`) });
-      for (let index = 0; index < 5; index++) {
+      for (let index = 0; index < 6; index++) {
         await planets.nth(index).click();
         await page.waitForFunction(i => location.hash === `#step-${i}` && document.querySelector(`#step-${i}`).getBoundingClientRect().top >= 0 && document.querySelector(`#step-${i}`).getBoundingClientRect().top < 60, index + 1);
         await page.waitForFunction(i => document.querySelector(`nav a[href="#step-${i}"][aria-current="step"]`), index + 1);
       }
       await page.goBack();
-      await page.waitForFunction(() => location.hash === '#step-4' && document.querySelector('nav a[href="#step-4"][aria-current="step"]'));
-      await page.goForward();
       await page.waitForFunction(() => location.hash === '#step-5' && document.querySelector('nav a[href="#step-5"][aria-current="step"]'));
-      for (const index of [1, 3, 5]) {
+      await page.goForward();
+      await page.waitForFunction(() => location.hash === '#step-6' && document.querySelector('nav a[href="#step-6"][aria-current="step"]'));
+      await page.reload();
+      await page.waitForFunction(() => location.hash === '#step-6' && document.querySelector('nav a[href="#step-6"][aria-current="step"]'));
+      for (const index of [1, 2, 3, 4, 5, 6]) {
         await page.goto(`${base}${route}#step-${index}`);
         await page.waitForFunction(i => document.querySelector(`#step-${i}`).getBoundingClientRect().top >= 0 && document.querySelector(`#step-${i}`).getBoundingClientRect().top < 60 && document.querySelector(`nav a[href="#step-${i}"][aria-current="step"]`), index);
       }
@@ -132,8 +136,62 @@ const route = '/vibelink/cute-campus-roadmap';
       assert(await page.getByText('@cute.edu.tw', { exact: true }).last().isVisible());
       if (output) await page.screenshot({ path: path.join(output, `atomic-${width}.png`) });
       await page.getByRole('link', { name: '我加入了 →' }).click();
-      await page.getByRole('link', { name: '🚀 啟動 AI Radar' }).click();
+      await page.getByRole('link', { name: '返回下載區 →' }).click();
       assert.equal(new URL(page.url()).hash, '#step-2');
+      await page.goto(base + route + '#step-5');
+      await page.getByRole('link', { name: '下一關：找遊戲與興趣同好 →' }).click();
+      assert.equal(new URL(page.url()).hash, '#step-6');
+      const section = page.locator('#step-6');
+      const categories = section.getByRole('group', { name: '社群分類' }).getByRole('button');
+      assert.equal(await categories.nth(0).getAttribute('aria-pressed'), 'true');
+      const expected = [ ['leagueoflegends','valorant','aov','roblox','minecraft'], ['foodie','gym','travel','movie','party'] ];
+      const allTags = [];
+      for (let category = 0; category < 2; category++) {
+        await categories.nth(category).focus();
+        await page.keyboard.press(category ? 'Space' : 'Enter');
+        assert(await categories.nth(category).evaluate(el => el.matches(':focus-visible') && getComputedStyle(el).outlineStyle !== 'none'));
+        assert.equal(await categories.nth(category).getAttribute('aria-pressed'), 'true');
+        const cards = section.locator('#community-cards > li');
+        assert.equal(await cards.count(), 5);
+        for (let i = 0; i < 5; i++) {
+          const tag = '@' + expected[category][i];
+          allTags.push(tag);
+          const button = cards.nth(i).getByRole('button', { name: '複製標籤 ' + tag, exact: true });
+          const target = await button.boundingBox();
+          assert(target.height >= 44 && target.width >= 44);
+          // Controlled success and rejection exercise the real UI event handler.
+          await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.copiedTag = text; } } }));
+          await button.click();
+          await cards.nth(i).getByRole('status').filter({ hasText: '已複製 ' + tag }).waitFor();
+          assert.equal(await page.evaluate(() => window.copiedTag), tag);
+          await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Denied'); } } }));
+          await button.click();
+          await cards.nth(i).getByText('請長按複製', { exact: true }).waitFor();
+          assert.equal(await cards.nth(i).getByRole('status').textContent(), '請長按複製');
+          const fallback = cards.nth(i).getByRole('textbox', { name: '手動複製 ' + tag });
+          assert.equal(await fallback.inputValue(), tag);
+          await fallback.focus();
+          assert.equal(await fallback.evaluate(el => el.value.slice(el.selectionStart, el.selectionEnd)), tag);
+        }
+        assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+        if (output) await section.screenshot({ path: path.join(output, 'step-6-' + category + '-' + width + '.png') });
+      }
+      assert.equal(new Set(allTags).size, 10);
+      await categories.nth(0).focus();
+      await page.keyboard.press('Tab');
+      assert(await categories.nth(1).evaluate(el => el === document.activeElement));
+      await categories.nth(0).click();
+      // Clipboard absent (insecure/unsupported contexts) must also offer manual copying.
+      await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined }));
+      await section.getByRole('button', { name: '複製標籤 @leagueoflegends', exact: true }).click();
+      await section.getByRole('textbox', { name: '手動複製 @leagueoflegends' }).waitFor();
+      assert.equal(await page.locator('#completion > details').getAttribute('open'), null);
+      await section.getByRole('link', { name: '下載 Vibelink', exact: true }).click();
+      assert.equal(new URL(page.url()).hash, '#step-2');
+      await page.goto(base + route + '#step-6');
+      await section.getByRole('link', { name: '繼續 → 完成區', exact: true }).click();
+      assert.equal(new URL(page.url()).hash, '#completion');
+      assert.equal(await page.locator('#completion > details').getAttribute('open'), null);
       const complete = page.locator('summary').filter({ hasText: '我完成第一次探索了' });
       await complete.focus();
       await page.keyboard.press('Enter');
@@ -143,8 +201,9 @@ const route = '/vibelink/cute-campus-roadmap';
       if (output) { await complete.scrollIntoViewIfNeeded(); await page.screenshot({ path: path.join(output, `complete-${width}.png`) }); }
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       assert.deepEqual(errors, []);
+      assert.deepEqual(forbiddenRequests, []);
       await page.close();
-      console.log(`PASS ${width}px: 5 planets, direct hashes, history, Enter/Space/Tab, focus, 44px targets, reduced motion, MENU, five steps, completion, overflow, console`);
+      console.log(`PASS ${width}px: 6 planets, direct hashes, history, Enter/Space/Tab, focus, 44px targets, reduced motion, MENU, six steps, 10 tags, category keyboard, clipboard success/rejection/absent, Step 5 → 6 → completion, completion, overflow, console`);
     }
     const page = await browser.newPage();
     for (const pathname of ['/', '/vibelink', '/about', '/vibe-tv', '/vibe-membership', '/vibe-ecosystem', '/investor', '/privacy', '/delete-account', '/child-safety', route]) {

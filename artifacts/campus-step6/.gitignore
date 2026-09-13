@@ -1,0 +1,4 @@
+*.png
+!review-step6-*.png
+!review-navigation-*.png
+!review-viewport-games-*.png

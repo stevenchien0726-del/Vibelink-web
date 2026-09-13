@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import styles from "./interstellar-navigation.module.css";
 
-const missions = ["DISCOVER", "DOWNLOAD", "PROFILE", "ATOMIC NETWORK", "AI RADAR"];
+const missions = ["DISCOVER", "DOWNLOAD", "PROFILE", "ATOMIC NETWORK", "AI RADAR", "FIND YOUR PEOPLE"];
 const stars = [[8, 10], [22, 21], [84, 8], [94, 31], [9, 43], [45, 37], [59, 8], [88, 86], [40, 73], [9, 93], [56, 53], [91, 57]];
 
 function subscribe(callback: () => void) {
@@ -28,12 +28,12 @@ export function InterstellarNavigation({ tag, code, titles }: { tag: string; cod
           <div className={styles.radarArc} />
           {stars.map(([left, top], index) => <i key={index} className={styles.star} style={{ left: `${left}%`, top: `${top}%` }} />)}
           <svg className={styles.mobileRoute} viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
-            <path className={styles.routeGlow} d="M18 78 C18 66 70 82 70 61 S24 61 24 43 S74 46 74 27 S34 30 34 9" />
-            <path className={styles.route} d="M18 78 C18 66 70 82 70 61 S24 61 24 43 S74 46 74 27 S34 30 34 9" />
+            <path className={styles.routeGlow} d="M20 77 C20 65 72 87 72 65 C72 53 24 65 24 50 C24 36 74 51 74 36 C74 21 27 35 27 21 C27 7 72 24 72 8" />
+            <path className={styles.route} d="M20 77 C20 65 72 87 72 65 C72 53 24 65 24 50 C24 36 74 51 74 36 C74 21 27 35 27 21 C27 7 72 24 72 8" />
           </svg>
           <svg className={styles.desktopRoute} viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
-            <path className={styles.routeGlow} d="M10 65 C12 14 29 9 30 31 S40 90 51 63 S58 6 71 26 S95 20 90 61" />
-            <path className={styles.route} d="M10 65 C12 14 29 9 30 31 S40 90 51 63 S58 6 71 26 S95 20 90 61" />
+            <path className={styles.routeGlow} d="M9 63 C9 40 25 51 25 29 C25 7 42 85 42 63 C42 41 58 51 58 29 C58 7 75 85 75 63 C75 41 91 51 91 29" />
+            <path className={styles.route} d="M9 63 C9 40 25 51 25 29 C25 7 42 85 42 63 C42 41 58 51 58 29 C58 7 75 85 75 63 C75 41 91 51 91 29" />
           </svg>
           <span className={styles.flightSignal} aria-hidden="true">
             <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
