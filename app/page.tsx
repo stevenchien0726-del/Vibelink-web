@@ -23,31 +23,38 @@ const menuPanelTransition: Transition = {
   ease: [0.22, 1, 0.36, 1],
 };
 
+const unavailablePages = {
+  tv: { title: "VIBE TV", description: "VIBE TV 網頁尚未開啟" },
+  membership: { title: "Vibe Membership", description: "會員網頁尚未開啟" },
+  ecosystem: { title: "VIBE 生態系", description: "VIBE 生態系網頁尚未開啟" },
+};
+
 export default function HomePage() {
   const { locale, setLocale, t } = useI18n();
   const [open, setOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
-  const [membershipModalOpen, setMembershipModalOpen] = useState(false);
-  const membershipButtonRef = useRef<HTMLButtonElement>(null);
+  const [unavailablePage, setUnavailablePage] = useState<keyof typeof unavailablePages | null>(null);
+  const modalTriggerRef = useRef<HTMLButtonElement | null>(null);
   const modalConfirmButtonRef = useRef<HTMLButtonElement>(null);
+  const modalContent = unavailablePage ? unavailablePages[unavailablePage] : null;
 
-  const closeMembershipModal = useCallback(() => {
-    setMembershipModalOpen(false);
-    window.requestAnimationFrame(() => membershipButtonRef.current?.focus());
+  const closeUnavailableModal = useCallback(() => {
+    setUnavailablePage(null);
+    window.requestAnimationFrame(() => modalTriggerRef.current?.focus());
   }, []);
 
   useEffect(() => {
-    if (!membershipModalOpen) return;
+    if (!unavailablePage) return;
 
     modalConfirmButtonRef.current?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeMembershipModal();
+      if (event.key === "Escape") closeUnavailableModal();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [closeMembershipModal, membershipModalOpen]);
+  }, [closeUnavailableModal, unavailablePage]);
 
   const scrollToTop = () => {
     const startPosition = window.scrollY;
@@ -214,23 +221,34 @@ export default function HomePage() {
                     <Link href="/vibelink/cute-campus-roadmap" onClick={closeMenu}>
                       中國科大 Campus RoadMap
                     </Link>
-                    <Link href="/vibe-tv" onClick={closeMenu}>
-                      {t.menu.tv}
-                    </Link>
                     <button
-                      ref={membershipButtonRef}
+                      type="button"
+                      onClick={(event) => {
+                        modalTriggerRef.current = event.currentTarget;
+                        setUnavailablePage("tv");
+                      }}
+                    >
+                      {t.menu.tv}
+                    </button>
+                    <button
                       type="button"
                       aria-label="VIBE MEMBERSHIP"
-                      onClick={() => setMembershipModalOpen(true)}
+                      onClick={(event) => {
+                        modalTriggerRef.current = event.currentTarget;
+                        setUnavailablePage("membership");
+                      }}
                     >
                       {t.menu.membership}
                     </button>
-                    <Link
-                      href="/vibe-ecosystem"
-                      onClick={closeMenu}
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        modalTriggerRef.current = event.currentTarget;
+                        setUnavailablePage("ecosystem");
+                      }}
                     >
                       {t.menu.ecosystem}
-                    </Link>
+                    </button>
                     <Link href="/about" onClick={closeMenu}>
                       {t.menu.about}
                     </Link>
@@ -286,10 +304,10 @@ export default function HomePage() {
       </div>
 
       <AnimatePresence>
-        {membershipModalOpen ? (
+        {modalContent ? (
           <motion.div
             className="fixed inset-0 z-[100100] flex items-center justify-center bg-black/70 p-5 backdrop-blur-sm"
-            onClick={closeMembershipModal}
+            onClick={closeUnavailableModal}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -298,8 +316,8 @@ export default function HomePage() {
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-labelledby="membership-modal-title"
-              aria-describedby="membership-modal-description"
+              aria-labelledby="unavailable-modal-title"
+              aria-describedby="unavailable-modal-description"
               className="relative w-full max-w-md rounded-[28px] border border-fuchsia-200/20 bg-[#351044]/95 p-7 text-center text-white shadow-[0_28px_90px_rgba(0,0,0,0.55)] sm:p-8"
               onClick={(event) => event.stopPropagation()}
               initial={{ opacity: 0, scale: 0.94, y: 12 }}
@@ -309,29 +327,29 @@ export default function HomePage() {
             >
               <button
                 type="button"
-                aria-label="關閉 Vibe Membership 提醒"
-                onClick={closeMembershipModal}
+                aria-label={`關閉 ${modalContent.title} 提醒`}
+                onClick={closeUnavailableModal}
                 className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200"
               >
                 <X size={22} aria-hidden="true" />
               </button>
 
               <h2
-                id="membership-modal-title"
+                id="unavailable-modal-title"
                 className="pr-8 text-2xl font-black tracking-wide"
               >
-                Vibe Membership
+                {modalContent.title}
               </h2>
               <p
-                id="membership-modal-description"
+                id="unavailable-modal-description"
                 className="mt-5 text-base font-semibold text-white/80"
               >
-                會員網頁尚未開啟
+                {modalContent.description}
               </p>
               <button
                 ref={modalConfirmButtonRef}
                 type="button"
-                onClick={closeMembershipModal}
+                onClick={closeUnavailableModal}
                 className="mt-7 w-full rounded-2xl bg-gradient-to-r from-fuchsia-500 to-violet-500 px-6 py-3.5 text-base font-black text-white shadow-lg shadow-fuchsia-950/40 transition hover:from-fuchsia-400 hover:to-violet-400 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#351044]"
               >
                 確定
