@@ -17,7 +17,7 @@ function subscribe(callback: () => void) {
 const readHash = () => window.location.hash;
 const serverHash = () => "";
 
-export function InterstellarNavigation({ tag, code, titles }: { tag: string; code: string; titles: string[] }) {
+export function InterstellarNavigation({ titles }: { titles: string[] }) {
   const hash = useSyncExternalStore(subscribe, readHash, serverHash);
 
   return (
@@ -66,12 +66,6 @@ export function InterstellarNavigation({ tag, code, titles }: { tag: string; cod
             </a>
           );
         })}
-        <div className={styles.beacon}>
-          <span className={styles.beaconLight} aria-hidden="true" />
-          <span className={styles.beaconLabel}>{code} CAMPUS NETWORK</span>
-          <strong>{tag}</strong>
-          <span className={styles.destination}>DESTINATION SIGNAL</span>
-        </div>
       </div>
       <p id="planet-instructions" className={styles.legend}><span aria-hidden="true">✦</span> SELECT A PLANET TO EXPLORE</p>
     </nav>

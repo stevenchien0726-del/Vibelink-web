@@ -16,7 +16,7 @@ export function CampusRoadmapPage({ roadmap }: { roadmap: CampusRoadmap }) {
         <Link href="/" className={styles.brand} aria-label="返回 VIBE CITY 官網">
           <Image src="/wing-logo.png" alt="" width={32} height={32} />VIBE CITY
         </Link>
-        <span className={styles.edition}>{roadmap.campus.code} CAMPUS / 01</span>
+        <span className={styles.edition}>CAMPUS / 01</span>
       </header>
       <RoadmapHero roadmap={roadmap} />
       <RoadmapPath roadmap={roadmap} />
@@ -38,7 +38,7 @@ function RoadmapHero({ roadmap }: { roadmap: CampusRoadmap }) {
         <p className={styles.lead}>{roadmap.hero.lead}</p>
         <p>{roadmap.hero.intro}</p>
       </div>
-      <InterstellarNavigation tag={roadmap.campus.tag} code={roadmap.campus.code} titles={roadmap.steps.map(step => step.title)} />
+      <InterstellarNavigation titles={roadmap.steps.map(step => step.title)} />
     </section>
   );
 }
