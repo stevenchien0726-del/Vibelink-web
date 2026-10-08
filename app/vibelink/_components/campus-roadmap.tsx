@@ -64,11 +64,12 @@ function RoadmapStep({ roadmap, index }: { roadmap: CampusRoadmap; index: number
         {step.id === "interests" ? <p className={styles.exploreBadge}>自由探索</p> : null}
         <div className={styles.copy}>{step.paragraphs.map(text => <p key={text}>{text}</p>)}</div>
         {screenshot ? <Image {...screenshot} alt={screenshot.alt} className={styles.stepScreenshot} sizes="(max-width: 767px) calc(100vw - 106px), (max-width: 965px) calc(50vw - 82px), 400px" loading="lazy" /> : null}
+        {screenshot && (step.id === "tag" || step.id === "radar") ? <p className={styles.hint}>{roadmap.campusScreenshotCaption}</p> : null}
         {step.id === "world" ? <div className={styles.features}>{roadmap.features.map(([title, body], i) => { const FeatureIcon = [Radar, AtSign, Compass][i]; return <div key={title}><FeatureIcon size={22} aria-hidden="true" /><div><h3>{title}</h3><p>{body}</p></div></div>; })}</div> : null}
         {step.id === "download" ? <DownloadLinks /> : null}
         {step.id === "profile" ? <><p className={styles.smallLabel}>MISSION</p><InstructionList items={roadmap.missions} /><aside className={styles.tip}><h3>{roadmap.tip.title}</h3><p>{roadmap.tip.body}</p></aside></> : null}
-        {step.id === "tag" ? <><AtomicTagHighlight tag={roadmap.campus.tag} /><InstructionList items={roadmap.tagInstructions} /><p className={styles.welcome}>{roadmap.welcome.title}<span>{roadmap.welcome.body}</span></p></> : null}
-        {step.id === "radar" ? <><PromptExamples roadmap={roadmap} /><p className={styles.equation}><strong>{roadmap.campus.tag}</strong> + 自然語言<br /><span>= 校園 AI 搜尋</span></p><InstructionList items={roadmap.radarInstructions} /></> : null}
+        {step.id === "tag" ? <><AtomicTagHighlight campuses={roadmap.campusTags} /><InstructionList items={roadmap.tagInstructions} /><p className={styles.hint}>{roadmap.campusTagHint}</p><p className={styles.welcome}>{roadmap.welcome.title}<span>{roadmap.welcome.body}</span></p></> : null}
+        {step.id === "radar" ? <><PromptExamples roadmap={roadmap} /><p className={styles.hint}>{roadmap.promptHint}</p><p className={styles.hint}>{roadmap.promptResultsHint}</p><div className={styles.equation}><p><strong>你的校園 Atomic Tag</strong> + 自然語言<br /><span>= 校園 AI 搜尋</span></p><p className={styles.campusTagOptions}>{roadmap.campusTags.map(({ tag }, index) => <span key={tag}>{index > 0 ? "／ " : ""}{tag}</span>)}</p></div><InstructionList items={roadmap.radarInstructions} /><p className={styles.hint}>{roadmap.campusTagHint}</p></> : null}
         {step.id === "interests" ? <InterestInstructions /> : null}
         <a className={styles.next} href={index === roadmap.steps.length - 1 ? "#completion" : `#step-${index + 2}`}>{step.cta}</a>
         {step.id === "radar" ? <p className={styles.hint}><a className={styles.next} href="#step-2">返回下載區 →</a></p> : null}
@@ -107,8 +108,8 @@ function DownloadLinks() {
   </div>;
 }
 
-function AtomicTagHighlight({ tag }: { tag: string }) {
-  return <div className={styles.atomicTag}><span className={styles.smallLabel}>ATOMIC NETWORK</span><strong>{tag}</strong><span className={styles.tagStatus}><span aria-hidden="true">●</span> YOUR CAMPUS. YOUR PEOPLE.</span></div>;
+function AtomicTagHighlight({ campuses }: { campuses: CampusRoadmap["campusTags"] }) {
+  return <div className={styles.atomicTag}><span className={styles.smallLabel}>ATOMIC NETWORK</span><ul className={styles.campusTags}>{campuses.map(({ name, tag }) => <li key={tag}><span>{name}</span><strong>{tag}</strong></li>)}</ul><span className={styles.tagStatus}><span aria-hidden="true">●</span> YOUR CAMPUS. YOUR PEOPLE.</span></div>;
 }
 
 function PromptExamples({ roadmap }: { roadmap: CampusRoadmap }) {

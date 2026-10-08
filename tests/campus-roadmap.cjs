@@ -13,7 +13,7 @@ const route = '/vibelink/cute-campus-roadmap';
 (async () => {
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   try {
-    for (const width of [375, 390, 430, 768, 1440]) {
+    for (const width of [375, 390, 414, 430, 768, 1440]) {
       const page = await browser.newPage({ viewport: { width, height: width > 500 ? 1000 : 844 }, reducedMotion: 'reduce' });
       const errors = [];
       const forbiddenRequests = [];
@@ -22,7 +22,7 @@ const route = '/vibelink/cute-campus-roadmap';
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
       assert.equal((await page.goto(base)).status(), 200);
       await page.getByRole('button', { name: 'MENU', exact: true }).click();
-      const menuLink = page.getByRole('link', { name: '中國科大 Campus RoadMap', exact: true });
+      const menuLink = page.locator('#home-menu a[href="/vibelink/cute-campus-roadmap"]');
       await menuLink.waitFor({ state: 'visible' });
       assert(await menuLink.isVisible());
       const menu = await page.locator('#home-menu').boundingBox();
@@ -134,8 +134,29 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.getByRole('link', { name: '完成 → 前往下一關' }).click();
       assert.equal(new URL(page.url()).hash, '#step-4');
       assert(await page.getByText('@cute.edu.tw', { exact: true }).last().isVisible());
+      const campusTags = page.locator('#step-4 ul').first();
+      assert.deepEqual(await campusTags.locator('strong').allTextContents(), ['@ntu.edu.tw', '@ntnu.edu.tw', '@cute.edu.tw']);
+      assert.deepEqual(await campusTags.locator('li > span').allTextContents(), ['國立臺灣大學', '國立臺灣師範大學', '中國科技大學']);
+      assert.equal(await page.locator('#step-4 h2').textContent(), '加入你的校園 Atomic Tag');
+      for (const stepNumber of [4, 5]) {
+        const step = page.locator(`#step-${stepNumber}`);
+        assert(await step.getByText('搜尋 ntu 時可能同時匹配 ntnu，請確認學校名稱與完整標籤。', { exact: true }).isVisible());
+        assert(await step.getByText('操作示意，以中國科技大學社群為例；請選擇你的學校標籤。', { exact: true }).isVisible());
+        assert(await step.evaluate(section => [...section.querySelectorAll('h2, li, strong, a, p')].every(el => {
+          const box = el.getBoundingClientRect();
+          return box.left >= 0 && box.right <= innerWidth && el.scrollWidth <= el.clientWidth + 1;
+        })), `Step ${stepNumber} content fits at ${width}px`);
+        assert(await step.evaluate(section => [...section.querySelectorAll('strong, li > span')].every(el => {
+          const range = document.createRange();
+          range.selectNodeContents(el);
+          return [...range.getClientRects()].every(box => box.left >= 0 && box.right <= innerWidth);
+        })), `Step ${stepNumber} text is not clipped at ${width}px`);
+      }
+      assert.deepEqual(await page.locator('#step-5 ul li > span').allTextContents(), ['找 @ntu.edu.tw 喜歡攝影的人', '找 @ntnu.edu.tw 最近想出去玩的人', '找 @cute.edu.tw 喜歡寫程式的人', '找同校喜歡看電影的人', '找同校跟我興趣相近的人']);
       if (output) await page.screenshot({ path: path.join(output, `atomic-${width}.png`) });
       await page.getByRole('link', { name: '我加入了 →' }).click();
+      assert.equal(new URL(page.url()).hash, '#step-5');
+      if (output) await page.locator('#step-5').screenshot({ path: path.join(output, `radar-${width}.png`) });
       await page.getByRole('link', { name: '返回下載區 →' }).click();
       assert.equal(new URL(page.url()).hash, '#step-2');
       await page.goto(base + route + '#step-5');
