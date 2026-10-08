@@ -219,7 +219,7 @@ export default function HomePage() {
                       {t.menu.vibelink}
                     </Link>
                     <Link href="/vibelink/cute-campus-roadmap" onClick={closeMenu}>
-                      中國科大 Campus RoadMap
+                      Campus RoadMap
                     </Link>
                     <button
                       type="button"

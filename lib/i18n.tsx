@@ -38,7 +38,7 @@ export const translations = {
     home: {
       heroTitle: "VIBE CITY",
       heroSubtitle:
-        "建立有長期價值的去體制化創新體驗與服務，同時打造完整的 AI 社交與娛樂文化生態系。",
+        "創新AI社交應用 x 娛樂文化生態系",
       heroBody: "",
       navButtons: {
         problem: "Problem",
