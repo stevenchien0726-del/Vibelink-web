@@ -103,6 +103,7 @@ function DownloadLinks() {
   return <div className={styles.downloads}>
     <a className={styles.button} href={vibelinkLinks.appStore} target="_blank" rel="noopener noreferrer">App Store 下載 <ArrowUpRight size={18} aria-hidden="true" /><span className={styles.srOnly}>（在新分頁開啟）</span></a>
     <a className={styles.button} href={vibelinkLinks.googlePlay} target="_blank" rel="noopener noreferrer">Google Play 下載<span className={styles.srOnly}>（在新分頁開啟）</span></a>
+    <Image src="/campus-roadmap/app-store-google-play-badges.png" alt="Download on the App Store 與 Android app on Google Play" width={203} height={144} className={styles.storeBadges} />
   </div>;
 }
 
