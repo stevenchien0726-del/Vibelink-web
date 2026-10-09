@@ -63,7 +63,7 @@ function RoadmapStep({ roadmap, index }: { roadmap: CampusRoadmap; index: number
         <h2 id={`step-title-${index + 1}`}>{step.title}</h2>
         {step.id === "interests" ? <p className={styles.exploreBadge}>自由探索</p> : null}
         <div className={styles.copy}>{step.paragraphs.map(text => <p key={text}>{text}</p>)}</div>
-        {screenshot ? <Image {...screenshot} alt={screenshot.alt} className={styles.stepScreenshot} sizes="(max-width: 767px) calc(100vw - 106px), (max-width: 965px) calc(50vw - 82px), 400px" loading="lazy" /> : null}
+        {screenshot ? <Image {...screenshot} alt={screenshot.alt} className={styles.stepScreenshot} sizes="(max-width: 767px) calc(50vw - 53px), (max-width: 965px) calc(25vw - 41px), 200px" loading="lazy" /> : null}
         {screenshot && (step.id === "tag" || step.id === "radar") ? <p className={styles.hint}>{roadmap.campusScreenshotCaption}</p> : null}
         {step.id === "world" ? <div className={styles.features}>{roadmap.features.map(([title, body], i) => { const FeatureIcon = [Radar, AtSign, Compass][i]; return <div key={title}><FeatureIcon size={22} aria-hidden="true" /><div><h3>{title}</h3><p>{body}</p></div></div>; })}</div> : null}
         {step.id === "download" ? <DownloadLinks /> : null}
