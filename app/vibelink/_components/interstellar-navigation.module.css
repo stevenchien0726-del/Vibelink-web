@@ -15,8 +15,8 @@
 .surface { inset: 0; border-radius: 50%; background: radial-gradient(circle at 28% 25%, #e6bdf2 0, #aa5ed2 21%, #60257f 52%, #1e082c 86%); box-shadow: inset -9px -8px 15px #0b001d99, inset 2px 2px 3px #ffe6ff80; }
 .atmosphere { inset: -7px; border: 1px solid #d293f32a; border-radius: 50%; box-shadow: 0 0 22px #b967df26; }
 .number { position: relative; z-index: 3; color: #fff; font-size: 20px; font-weight: 900; text-shadow: 0 1px 8px #100016, 0 1px 3px #100016; }
-.mission { position: absolute; left: 50%; top: calc(100% + 14px); transform: translateX(-50%); white-space: nowrap; font-size: 8px; letter-spacing: .07em; font-weight: 700; color: #cdb3dc; transition: color .2s; }
-.current { position: absolute; left: 50%; top: calc(100% + 29px); transform: translateX(-50%); white-space: nowrap; color: #edc7ff; font-size: 7px; letter-spacing: .04em; }
+.mission { position: absolute; left: 50%; top: calc(100% + 14px); transform: translateX(-50%); white-space: nowrap; font-size: 12px; letter-spacing: .07em; font-weight: 700; color: #cdb3dc; transition: color .2s; }
+.current { position: absolute; left: 50%; top: calc(100% + 40px); transform: translateX(-50%); white-space: nowrap; color: #edc7ff; font-size: 7px; letter-spacing: .04em; }
 .planet1 { left: 20%; top: 77%; --size: 62px; }
 .planet2 .surface { background: radial-gradient(ellipse at 35% 25%, #f0cbfa 0, transparent 23%), repeating-linear-gradient(-30deg, #a563bd22 0 3px, transparent 3px 9px), radial-gradient(circle at 30% 25%, #b77ddd, #60257f 57%, #190624 90%); }
 .planet2 .moon { width: 8px; height: 8px; border-radius: 50%; top: -12px; right: -9px; background: radial-gradient(circle at 30% 20%, #e2d4f4, #714686); box-shadow: 0 0 10px #c77aea30; }
@@ -56,9 +56,9 @@
   .planet1 { left: 9%; top: 63%; }.planet2 { left: 25%; top: 29%; }.planet3 { left: 42%; top: 63%; }.planet4 { left: 58%; top: 29%; }.planet5 { left: 75%; top: 63%; }
   .planet6 { left: 91%; top: 29%; }
   .planetLink { --size: 74px; }.planet2, .planet4 { --size: 82px; }
-  .mission { font-size: 9px; }.current { font-size: 8px; }
+  .mission { font-size: 13.5px; }.current { font-size: 8px; }
   .beacon { left: 36%; top: 2%; width: 180px; }.beacon strong { font-size: 22px; }
   .flightSignal { width: 22px; height: 22px; offset-path: shape(from 9% 63%, curve to 25% 29% with 9% 40% / 25% 51%, curve to 42% 63% with 25% 7% / 42% 85%, curve to 58% 29% with 42% 41% / 58% 51%, curve to 75% 63% with 58% 7% / 75% 85%, curve to 91% 29% with 75% 41% / 91% 51%); }
 }
-@media (min-width: 1100px) { .chart { height: 380px; }.planetLink { --size: 88px; }.planet2, .planet4 { --size: 98px; }.number { font-size: 26px; }.mission { font-size: 10px; } }
+@media (min-width: 1100px) { .chart { height: 380px; }.planetLink { --size: 88px; }.planet2, .planet4 { --size: 98px; }.number { font-size: 26px; }.mission { font-size: 15px; } }
 @media (prefers-reduced-motion: reduce) { .navigation *, .navigation *::before { animation: none !important; transition: none !important; }.flightSignal { offset-distance: 42%; }.planetLink:hover .surface, .planetLink:hover .atmosphere { transform: none; } }

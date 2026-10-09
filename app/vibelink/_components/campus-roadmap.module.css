@@ -7,8 +7,8 @@
 .hero { position: relative; max-width: 1160px; margin: auto; padding: 32px 24px 0; }
 .hero::before { content: ''; position: absolute; inset: 0 -200px; background: radial-gradient(ellipse at 70% 30%, #77239138, transparent 65%); pointer-events: none; }
 .heroCopy { position: relative; z-index: 1; }
-.hero .eyebrow { font-size: 22px; line-height: 1.5; }
-.hero h1 { font-size: clamp(60px, 12vw, 108px); font-weight: 900; line-height: .98; letter-spacing: -.065em; margin: 24px 0; }
+.hero .eyebrow { font-size: 44px; line-height: 1.5; }
+.hero h1 { font-size: clamp(30px, 6vw, 54px); font-weight: 900; line-height: .98; letter-spacing: -.065em; margin: 24px 0; }
 .hero h1 > span:first-child { color: var(--purple); }
 .titleDot { color: #f1d9ff; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; border-radius: 22px; background: var(--purple); color: #1f0629; font-size: 15px; font-weight: 800; padding: 15px 22px; transition: background .2s, transform .2s; cursor: pointer; }
