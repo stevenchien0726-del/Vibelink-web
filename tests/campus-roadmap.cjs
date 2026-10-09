@@ -33,6 +33,21 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.getByRole('heading', { level: 1 }).waitFor();
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.locator('section[id^="step-"]').count(), 6);
+      assert.deepEqual(await page.locator('section[id^="step-"] h2').allTextContents(), ['下載 Vibelink', '進入 Vibelink 世界', '建立你的 Vibe', '加入你的校園 Atomic Tag', '啟動你的第一次 AI Radar', '找到你的遊戲與興趣同好']);
+      const removedCopy = ['從加入校園，到找到和你同頻的人。', '6 Steps，開始探索。', 'SELECT A PLANET TO EXPLORE', 'Vibelink 是一個用 AI Radar', '不是先追蹤誰。', '先告訴 Vibelink 你想找什麼。', '準備進入中國科大 Vibelink 社群。', '下載 Vibelink，登入後就可以開始建立你的校園 Profile。', '不知道發什麼？', '今天的校園生活、興趣、食物、出去玩、最近在做的事都可以。', '找到你的校園，認識同校與興趣相近的人。', 'Atomic Tags 是以 @名稱 識別的社群', '選擇你的校園：', 'YOUR CAMPUS. YOUR PEOPLE.', '搜尋 ntu 時可能同時匹配 ntnu', 'Welcome to your campus.', '加入後，即可開始探索你的校園 Atomic Network。', '現在，找一個你真的想認識的人。', '不用選一堆條件。', '直接告訴 AI Radar：', '你想找誰？', '以下為搜尋範例；實際操作時', '返回下載區 →'];
+      const renderedCopy = await page.locator('main').textContent();
+      for (const text of removedCopy) assert(!renderedCopy.includes(text), `Removed from DOM: ${text}`);
+      assert.equal(await page.locator('#planet-instructions, nav[aria-describedby]').count(), 0);
+      assert.equal(await page.locator('#step-3 aside').count(), 0);
+      assert.equal(await page.locator('#step-1 img').count(), 1, 'Store badges retained');
+      assert.deepEqual(await page.locator('#step-2 h3').allTextContents(), ['AI Radar', 'Atomic Tags', 'Home']);
+      assert.equal(await page.locator('#step-1 > div').first().locator('svg').getAttribute('class'), 'lucide lucide-download');
+      assert.equal(await page.locator('#step-2 > div').first().locator('svg').getAttribute('class'), 'lucide lucide-compass');
+      for (const [number, label] of [[1, 'DOWNLOAD'], [2, 'DISCOVER']]) {
+        assert((await page.locator(`#step-${number}`).textContent()).includes(`STEP 0${number} / ${label}`));
+        assert.equal(await page.locator(`#step-${number} > div`).first().textContent(), `0${number}`);
+      }
+      assert.equal(await page.locator('main div').evaluateAll(elements => elements.filter(el => /campus-roadmap.*_copy_/.test(el.className) && el.children.length === 0).length), 0, 'No empty paragraph containers');
       assert.equal(await page.locator('html').evaluate(el => getComputedStyle(el).scrollBehavior), 'auto');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       const overflow = await page.locator('main *').evaluateAll(elements => elements.filter(el => {
@@ -42,6 +57,8 @@ const route = '/vibelink/cute-campus-roadmap';
       assert.deepEqual(overflow, []);
       const planets = page.getByRole('navigation', { name: '星際 RoadMap 關卡導航' }).getByRole('link');
       assert.equal(await planets.count(), 6);
+      assert((await planets.nth(0).getAttribute('aria-label')).includes('01 DOWNLOAD：下載 Vibelink'));
+      assert((await planets.nth(1).getAttribute('aria-label')).includes('02 DISCOVER：進入 Vibelink 世界'));
       const boxes = [];
       for (let index = 0; index < 6; index++) {
         const planet = planets.nth(index);
@@ -79,7 +96,7 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.waitForFunction(() => location.hash === '#step-3');
       assert.equal(await page.getByRole('navigation', { name: '星際 RoadMap 關卡導航' }).evaluate(el => el.getAnimations({ subtree: true }).length), 0);
       await page.goto(base + route);
-      if (output) await page.screenshot({ path: path.join(output, `roadmap-${width}.png`), fullPage: true });
+      if (output) await page.screenshot({ path: path.join(output, `hero-${width}.png`) });
       assert.equal(await page.getByRole('link', { name: '開始 RoadMap' }).count(), 0);
       for (const [stepNumber, filename, imageHeight] of [[3, 'cute-profile-upload.png', 1356], [4, 'cute-atomic-tags-search.png', 1434], [5, 'cute-ai-radar-input.png', 1473]]) {
         const screenshot = page.locator(`#step-${stepNumber} img`);
@@ -97,13 +114,15 @@ const route = '/vibelink/cute-campus-roadmap';
         assert.equal(imageInfo.radius, '20px');
         assert.equal(imageInfo.loading, 'lazy');
         assert(imageInfo.alt.includes('紅框'));
-        assert(Math.abs(imageInfo.gap - 20) < 1);
+        assert(imageInfo.gap >= 20 && imageInfo.gap <= 22);
         if (output) await screenshot.screenshot({ path: path.join(output, `step-${stepNumber}-image-${width}.png`) });
       }
       await planets.nth(0).click();
       assert.equal(new URL(page.url()).hash, '#step-1');
-      await page.getByRole('link', { name: '下一關 →', exact: true }).click();
+      if (output) await page.screenshot({ path: path.join(output, `download-${width}.png`) });
+      await page.getByRole('link', { name: '準備好了 →', exact: true }).click();
       assert.equal(new URL(page.url()).hash, '#step-2');
+      if (output) await page.screenshot({ path: path.join(output, `discover-${width}.png`) });
       assert.match(await page.getByRole('link', { name: 'App Store 下載' }).getAttribute('href'), /apps\.apple\.com\/tw\/app\/vibelink-social\/id6778701913/);
       const googlePlay = page.getByRole('link', { name: 'Google Play 下載' });
       const googlePlayUrl = 'https://play.google.com/store/apps/details?id=com.vibecity.vibelink';
@@ -130,7 +149,8 @@ const route = '/vibelink/cute-campus-roadmap';
         assert.equal(popup.url(), googlePlayUrl);
         await popup.close();
       }
-      await page.getByRole('link', { name: '準備好了 →' }).click();
+      await page.getByRole('link', { name: '下一關 →' }).click();
+      assert.equal(new URL(page.url()).hash, '#step-3');
       await page.getByRole('link', { name: '完成 → 前往下一關' }).click();
       assert.equal(new URL(page.url()).hash, '#step-4');
       assert(await page.getByText('@cute.edu.tw', { exact: true }).last().isVisible());
@@ -140,8 +160,9 @@ const route = '/vibelink/cute-campus-roadmap';
       assert.equal(await page.locator('#step-4 h2').textContent(), '加入你的校園 Atomic Tag');
       for (const stepNumber of [4, 5]) {
         const step = page.locator(`#step-${stepNumber}`);
-        assert(await step.getByText('搜尋 ntu 時可能同時匹配 ntnu，請確認學校名稱與完整標籤。', { exact: true }).isVisible());
-        assert(await step.getByText('操作示意，以中國科技大學社群為例；請選擇你的學校標籤。', { exact: true }).isVisible());
+        assert.equal(await step.getByText('搜尋 ntu 時可能同時匹配 ntnu，請確認學校名稱與完整標籤。', { exact: true }).count(), 0);
+        assert.equal(await step.getByText('操作示意，以中國科技大學社群為例；請選擇你的學校標籤。', { exact: true }).count(), stepNumber === 4 ? 1 : 0);
+        assert.equal(await step.locator('ol li').count(), 5);
         assert(await step.evaluate(section => [...section.querySelectorAll('h2, li, strong, a, p')].every(el => {
           const box = el.getBoundingClientRect();
           return box.left >= 0 && box.right <= innerWidth && el.scrollWidth <= el.clientWidth + 1;
@@ -157,8 +178,9 @@ const route = '/vibelink/cute-campus-roadmap';
       await page.getByRole('link', { name: '我加入了 →' }).click();
       assert.equal(new URL(page.url()).hash, '#step-5');
       if (output) await page.locator('#step-5').screenshot({ path: path.join(output, `radar-${width}.png`) });
-      await page.getByRole('link', { name: '返回下載區 →' }).click();
-      assert.equal(new URL(page.url()).hash, '#step-2');
+      assert.equal(await page.locator('#step-5').getByText('搜尋範例僅供操作參考；實際結果可能不同，也可能暫時找不到符合需求的人。', { exact: true }).count(), 1);
+      assert.equal(await page.locator('#step-5').getByText('@ntu.edu.tw', { exact: true }).count(), 0);
+      assert.equal(await page.locator('#step-5 a').count(), 1);
       await page.goto(base + route + '#step-5');
       await page.getByRole('link', { name: '下一關：找遊戲與興趣同好 →' }).click();
       assert.equal(new URL(page.url()).hash, '#step-6');
@@ -208,7 +230,7 @@ const route = '/vibelink/cute-campus-roadmap';
       await section.getByRole('textbox', { name: '手動複製 @leagueoflegends' }).waitFor();
       assert.equal(await page.locator('#completion > details').getAttribute('open'), null);
       await section.getByRole('link', { name: '下載 Vibelink', exact: true }).click();
-      assert.equal(new URL(page.url()).hash, '#step-2');
+      assert.equal(new URL(page.url()).hash, '#step-1');
       await page.goto(base + route + '#step-6');
       await section.getByRole('link', { name: '繼續 → 完成區', exact: true }).click();
       assert.equal(new URL(page.url()).hash, '#completion');
@@ -223,6 +245,12 @@ const route = '/vibelink/cute-campus-roadmap';
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       assert.deepEqual(errors, []);
       assert.deepEqual(forbiddenRequests, []);
+      if (output) {
+        await page.goto(base + route);
+        for (const image of await page.locator('main img').all()) { await image.scrollIntoViewIfNeeded(); await image.evaluate(img => img.decode()); }
+        await page.evaluate(() => scrollTo(0, 0));
+        await page.screenshot({ path: path.join(output, `roadmap-${width}.png`), fullPage: true });
+      }
       await page.close();
       console.log(`PASS ${width}px: 6 planets, direct hashes, history, Enter/Space/Tab, focus, 44px targets, reduced motion, MENU, six steps, 10 tags, category keyboard, clipboard success/rejection/absent, Step 5 → 6 → completion, completion, overflow, console`);
     }

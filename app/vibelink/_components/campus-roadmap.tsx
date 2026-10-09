@@ -7,7 +7,7 @@ import styles from "./campus-roadmap.module.css";
 import { CampusCommunities } from "./campus-communities";
 import { InterstellarNavigation } from "./interstellar-navigation";
 
-const icons = [Compass, Download, UserRound, AtSign, Radar, Gamepad2];
+const icons = [Download, Compass, UserRound, AtSign, Radar, Gamepad2];
 
 export function CampusRoadmapPage({ roadmap }: { roadmap: CampusRoadmap }) {
   return (
@@ -35,8 +35,6 @@ function RoadmapHero({ roadmap }: { roadmap: CampusRoadmap }) {
       <div className={styles.heroCopy}>
         <p className={styles.eyebrow}>{roadmap.hero.brand}</p>
         <h1 id="roadmap-title">Campus<br /><span>RoadMap</span><span className={styles.titleDot}>.</span></h1>
-        <p className={styles.lead}>{roadmap.hero.lead}</p>
-        <p>{roadmap.hero.intro}</p>
       </div>
       <InterstellarNavigation titles={roadmap.steps.map(step => step.title)} />
     </section>
@@ -56,23 +54,22 @@ function RoadmapStep({ roadmap, index }: { roadmap: CampusRoadmap; index: number
   const screenshot = roadmap.campus.screenshots?.[step.id];
   const Icon = icons[index];
   return (
-    <section id={`step-${index + 1}`} tabIndex={-1} className={styles.step} aria-labelledby={`step-title-${index + 1}`}>
+    <section id={`step-${index + 1}`} tabIndex={-1} className={`${styles.step}${index < 5 ? ` ${styles.compactStep}` : ""}`} aria-labelledby={`step-title-${index + 1}`}>
       <div className={styles.node} aria-hidden="true"><Icon size={23} /><span>0{index + 1}</span></div>
       <div className={styles.stepBody}>
         <p className={styles.eyebrow}>STEP 0{index + 1} / {step.label}</p>
         <h2 id={`step-title-${index + 1}`}>{step.title}</h2>
         {step.id === "interests" ? <p className={styles.exploreBadge}>自由探索</p> : null}
-        <div className={styles.copy}>{step.paragraphs.map(text => <p key={text}>{text}</p>)}</div>
+        {step.paragraphs.length > 0 ? <div className={styles.copy}>{step.paragraphs.map(text => <p key={text}>{text}</p>)}</div> : null}
         {screenshot ? <Image {...screenshot} alt={screenshot.alt} className={styles.stepScreenshot} sizes="(max-width: 767px) calc(50vw - 53px), (max-width: 965px) calc(25vw - 41px), 200px" loading="lazy" /> : null}
-        {screenshot && (step.id === "tag" || step.id === "radar") ? <p className={styles.hint}>{roadmap.campusScreenshotCaption}</p> : null}
+        {screenshot && step.id === "tag" ? <p className={styles.hint}>{roadmap.campusScreenshotCaption}</p> : null}
         {step.id === "world" ? <div className={styles.features}>{roadmap.features.map(([title, body], i) => { const FeatureIcon = [Radar, AtSign, Compass][i]; return <div key={title}><FeatureIcon size={22} aria-hidden="true" /><div><h3>{title}</h3><p>{body}</p></div></div>; })}</div> : null}
         {step.id === "download" ? <DownloadLinks /> : null}
-        {step.id === "profile" ? <><p className={styles.smallLabel}>MISSION</p><InstructionList items={roadmap.missions} /><aside className={styles.tip}><h3>{roadmap.tip.title}</h3><p>{roadmap.tip.body}</p></aside></> : null}
-        {step.id === "tag" ? <><AtomicTagHighlight campuses={roadmap.campusTags} /><InstructionList items={roadmap.tagInstructions} /><p className={styles.hint}>{roadmap.campusTagHint}</p><p className={styles.welcome}>{roadmap.welcome.title}<span>{roadmap.welcome.body}</span></p></> : null}
-        {step.id === "radar" ? <><PromptExamples roadmap={roadmap} /><p className={styles.hint}>{roadmap.promptHint}</p><p className={styles.hint}>{roadmap.promptResultsHint}</p><div className={styles.equation}><p><strong>你的校園 Atomic Tag</strong> + 自然語言<br /><span>= 校園 AI 搜尋</span></p><p className={styles.campusTagOptions}>{roadmap.campusTags.map(({ tag }, index) => <span key={tag}>{index > 0 ? "／ " : ""}{tag}</span>)}</p></div><InstructionList items={roadmap.radarInstructions} /><p className={styles.hint}>{roadmap.campusTagHint}</p></> : null}
+        {step.id === "profile" ? <><p className={styles.smallLabel}>MISSION</p><InstructionList items={roadmap.missions} /></> : null}
+        {step.id === "tag" ? <><AtomicTagHighlight campuses={roadmap.campusTags} /><InstructionList items={roadmap.tagInstructions} /></> : null}
+        {step.id === "radar" ? <><PromptExamples roadmap={roadmap} /><p className={styles.hint}>{roadmap.promptResultsHint}</p><div className={styles.equation}><p><strong>你的校園 Atomic Tag</strong> + 自然語言<br /><span>= 校園 AI 搜尋</span></p></div><InstructionList items={roadmap.radarInstructions} /></> : null}
         {step.id === "interests" ? <InterestInstructions /> : null}
         <a className={styles.next} href={index === roadmap.steps.length - 1 ? "#completion" : `#step-${index + 2}`}>{step.cta}</a>
-        {step.id === "radar" ? <p className={styles.hint}><a className={styles.next} href="#step-2">返回下載區 →</a></p> : null}
       </div>
       <div className={styles.sideLabel} aria-hidden="true"><span>0{index + 1}</span>{step.label}</div>
     </section>
@@ -96,7 +93,7 @@ function InterestInstructions() {
       <p className={styles.hint}>遊戲與興趣社群可能包含其他學校的朋友。</p>
       <p className={styles.hint}>社群正在累積第一批成員；暫時找不到人時，可以減少搜尋條件，或之後再回來看看。</p>
     </div>
-    <p><a className={styles.button} href="#step-2">下載 Vibelink</a></p>
+    <p><a className={styles.button} href="#step-1">下載 Vibelink</a></p>
   </>;
 }
 
@@ -109,7 +106,7 @@ function DownloadLinks() {
 }
 
 function AtomicTagHighlight({ campuses }: { campuses: CampusRoadmap["campusTags"] }) {
-  return <div className={styles.atomicTag}><span className={styles.smallLabel}>ATOMIC NETWORK</span><ul className={styles.campusTags}>{campuses.map(({ name, tag }) => <li key={tag}><span>{name}</span><strong>{tag}</strong></li>)}</ul><span className={styles.tagStatus}><span aria-hidden="true">●</span> YOUR CAMPUS. YOUR PEOPLE.</span></div>;
+  return <div className={styles.atomicTag}><span className={styles.smallLabel}>ATOMIC NETWORK</span><ul className={styles.campusTags}>{campuses.map(({ name, tag }) => <li key={tag}><span>{name}</span><strong>{tag}</strong></li>)}</ul></div>;
 }
 
 function PromptExamples({ roadmap }: { roadmap: CampusRoadmap }) {

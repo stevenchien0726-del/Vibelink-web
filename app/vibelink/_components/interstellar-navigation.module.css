@@ -1,5 +1,5 @@
 .navigation { width: 100%; min-width: 0; position: relative; }
-.chart { position: relative; height: 650px; isolation: isolate; }
+.chart { position: relative; height: 500px; isolation: isolate; }
 .cosmos { position: absolute; inset: 0; pointer-events: none; overflow: hidden; background: radial-gradient(ellipse at 45% 43%, #9638cd1a, transparent 65%), radial-gradient(ellipse at 85% 20%, #5c52ae16, transparent 45%); }
 .orbit { position: absolute; inset: 18% 10%; border: 1px solid #c77aea15; border-radius: 50%; transform: rotate(-24deg); }
 .radarArc { position: absolute; width: 220px; height: 220px; right: -35px; top: 12%; border-radius: 50%; border: 1px solid #c77aea15; box-shadow: 0 0 0 25px #c77aea06, 0 0 0 50px #c77aea04; }
@@ -18,11 +18,11 @@
 .mission { position: absolute; left: 50%; top: calc(100% + 14px); transform: translateX(-50%); white-space: nowrap; font-size: 8px; letter-spacing: .07em; font-weight: 700; color: #cdb3dc; transition: color .2s; }
 .current { position: absolute; left: 50%; top: calc(100% + 29px); transform: translateX(-50%); white-space: nowrap; color: #edc7ff; font-size: 7px; letter-spacing: .04em; }
 .planet1 { left: 20%; top: 77%; --size: 62px; }
-.planet1 .surface { background: radial-gradient(ellipse at 35% 25%, #f0cbfa 0, transparent 23%), repeating-linear-gradient(-30deg, #a563bd22 0 3px, transparent 3px 9px), radial-gradient(circle at 30% 25%, #b77ddd, #60257f 57%, #190624 90%); }
-.planet1 .moon { width: 8px; height: 8px; border-radius: 50%; top: -12px; right: -9px; background: radial-gradient(circle at 30% 20%, #e2d4f4, #714686); box-shadow: 0 0 10px #c77aea30; }
+.planet2 .surface { background: radial-gradient(ellipse at 35% 25%, #f0cbfa 0, transparent 23%), repeating-linear-gradient(-30deg, #a563bd22 0 3px, transparent 3px 9px), radial-gradient(circle at 30% 25%, #b77ddd, #60257f 57%, #190624 90%); }
+.planet2 .moon { width: 8px; height: 8px; border-radius: 50%; top: -12px; right: -9px; background: radial-gradient(circle at 30% 20%, #e2d4f4, #714686); box-shadow: 0 0 10px #c77aea30; }
 .planet2 { left: 72%; top: 65%; --size: 68px; }
-.planet2 .surface { background: repeating-linear-gradient(-18deg, #ddb8fa16 0 5px, transparent 5px 12px), radial-gradient(circle at 25% 20%, #c9b8ef, #7e5bb6 40%, #21132e 85%); }
-.planet2 .ring { width: 146%; height: 35%; border: 4px double #d5aff2a0; border-radius: 50%; transform: rotate(-28deg); z-index: 2; box-shadow: 0 0 8px #c77aea20; }
+.planet1 .surface { background: repeating-linear-gradient(-18deg, #ddb8fa16 0 5px, transparent 5px 12px), radial-gradient(circle at 25% 20%, #c9b8ef, #7e5bb6 40%, #21132e 85%); }
+.planet1 .ring { width: 146%; height: 35%; border: 4px double #d5aff2a0; border-radius: 50%; transform: rotate(-28deg); z-index: 2; box-shadow: 0 0 8px #c77aea20; }
 .planet3 { left: 24%; top: 50%; --size: 60px; }
 .planet3 .surface { background: radial-gradient(ellipse at 65% 28%, #34134f55 0 11%, transparent 13%), radial-gradient(ellipse at 30% 67%, #efb3ed44 0 14%, transparent 17%), radial-gradient(circle at 25% 22%, #ecc4e8, #a959a5 40%, #3a103f 80%); }
 .planet3 .moon { width: 13px; height: 13px; border-radius: 50%; bottom: -8px; right: -9px; background: radial-gradient(circle at 25% 20%, #d8aff4, #492665); }
@@ -47,13 +47,11 @@
 .beaconLabel { display: block; color: #ccb2db; font-size: 7px; letter-spacing: .09em; }
 .beacon strong { display: block; font-size: 18px; margin: 5px 0; letter-spacing: -.03em; text-shadow: 0 0 15px #c77aea55; }
 .destination { display: block; font-size: 6px; letter-spacing: .15em; color: #b394c4; }
-.legend { border-top: 1px solid #c77aea25; padding: 18px 0; text-align: center; font-size: 9px !important; letter-spacing: .16em; color: #cbb3d6 !important; }
-.legend span { color: #d3a3ed; margin-right: 9px; }
 @keyframes flight { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 @supports not (offset-path: shape(from 0% 0%, line to 100% 100%)) { .flightSignal { display: none; } }
 @media (min-width: 768px) {
   .navigation { grid-column: 1 / -1; }
-  .chart { height: 390px; }
+  .chart { height: 340px; }
   .mobileRoute { display: none; }.desktopRoute { display: block; }
   .planet1 { left: 9%; top: 63%; }.planet2 { left: 25%; top: 29%; }.planet3 { left: 42%; top: 63%; }.planet4 { left: 58%; top: 29%; }.planet5 { left: 75%; top: 63%; }
   .planet6 { left: 91%; top: 29%; }
@@ -62,5 +60,5 @@
   .beacon { left: 36%; top: 2%; width: 180px; }.beacon strong { font-size: 22px; }
   .flightSignal { width: 22px; height: 22px; offset-path: shape(from 9% 63%, curve to 25% 29% with 9% 40% / 25% 51%, curve to 42% 63% with 25% 7% / 42% 85%, curve to 58% 29% with 42% 41% / 58% 51%, curve to 75% 63% with 58% 7% / 75% 85%, curve to 91% 29% with 75% 41% / 91% 51%); }
 }
-@media (min-width: 1100px) { .chart { height: 450px; }.planetLink { --size: 88px; }.planet2, .planet4 { --size: 98px; }.number { font-size: 26px; }.mission { font-size: 10px; } }
+@media (min-width: 1100px) { .chart { height: 380px; }.planetLink { --size: 88px; }.planet2, .planet4 { --size: 98px; }.number { font-size: 26px; }.mission { font-size: 10px; } }
 @media (prefers-reduced-motion: reduce) { .navigation *, .navigation *::before { animation: none !important; transition: none !important; }.flightSignal { offset-distance: 42%; }.planetLink:hover .surface, .planetLink:hover .atmosphere { transform: none; } }

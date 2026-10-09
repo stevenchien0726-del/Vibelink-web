@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import styles from "./interstellar-navigation.module.css";
 
-const missions = ["DISCOVER", "DOWNLOAD", "PROFILE", "ATOMIC NETWORK", "AI RADAR", "FIND YOUR PEOPLE"];
+const missions = ["DOWNLOAD", "DISCOVER", "PROFILE", "ATOMIC NETWORK", "AI RADAR", "FIND YOUR PEOPLE"];
 const stars = [[8, 10], [22, 21], [84, 8], [94, 31], [9, 43], [45, 37], [59, 8], [88, 86], [40, 73], [9, 93], [56, 53], [91, 57]];
 
 function subscribe(callback: () => void) {
@@ -21,7 +21,7 @@ export function InterstellarNavigation({ titles }: { titles: string[] }) {
   const hash = useSyncExternalStore(subscribe, readHash, serverHash);
 
   return (
-    <nav className={styles.navigation} aria-label="星際 RoadMap 關卡導航" aria-describedby="planet-instructions">
+    <nav className={styles.navigation} aria-label="星際 RoadMap 關卡導航">
       <div className={styles.chart}>
         <div className={styles.cosmos} aria-hidden="true">
           <div className={styles.orbit} />
@@ -67,7 +67,6 @@ export function InterstellarNavigation({ titles }: { titles: string[] }) {
           );
         })}
       </div>
-      <p id="planet-instructions" className={styles.legend}><span aria-hidden="true">✦</span> SELECT A PLANET TO EXPLORE</p>
     </nav>
   );
 }
